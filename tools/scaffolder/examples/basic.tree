@@ -1,0 +1,30 @@
+scaffolder/
+├── cmd/
+│   └── scaffolder/
+│       └── main.go
+│
+├── internal/
+│   ├── parser/
+│   │   └── tree_parser.go
+│   │
+│   ├── builder/
+│   │   └── filesystem.go
+│   │
+│   ├── contracts/
+│   │   └── scaffold_contract.go
+│   │
+│   └── runner/
+│       └── runner.go
+│
+├── runtime/
+│   ├── inbox/
+│   ├── outbox/
+│   ├── archive/
+│   └── failed/
+│
+├── examples/
+│   └── basic.tree
+│
+├── Makefile
+├── go.mod
+└── README.md
