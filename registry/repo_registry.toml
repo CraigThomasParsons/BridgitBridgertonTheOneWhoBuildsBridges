@@ -1,1 +1,1601 @@
-repo = []
+[[repo]]
+id = '.claude'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/.claude'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = '.vscode'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/.vscode'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'AgentsOfTheWritersRoom'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/AgentsOfTheWritersRoom'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'AgileMedievalPeasantBoard'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'AgileMedievalPeasantBoard'
+url = 'https://github.com/CraigThomasParsons/AgileMedievalPeasantBoard.git'
+
+[repo.local]
+path = '/home/craigpar/Code/AgileMedievalPeasantBoard'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ArcaneArcadeMachineFactory'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'ArcaneArcadeMachineFactory'
+url = 'https://github.com/CraigThomasParsons/ArcaneArcadeMachineFactory.git'
+
+[repo.local]
+path = '/home/craigpar/Code/ArcaneArcadeMachineFactory'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ArcaneArcadeMachineFactoryBackup'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ArcaneArcadeMachineFactoryBackup'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Auralis'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Auralis'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'BandcampCollectionSync'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'BandcampCollectionSync'
+url = 'https://github.com/CraigThomasParsons/BandcampCollectionSync.git'
+
+[repo.local]
+path = '/home/craigpar/Code/BandcampCollectionSync'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ChatGptBackup'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ChatGptBackup'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ChatGptToChatProjectsBridge'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ChatGptToChatProjectsBridge'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ChatProjects'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ChatProjects'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ChatProjectsToKraxBridge'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ChatProjectsToKraxBridge'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ClaudiaCode'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ClaudiaCode'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ContextControlledDevelopmentFactory'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ContextControlledDevelopmentFactory'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Game'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Game'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'GettingWineGamesToWork'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/GettingWineGamesToWork'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Gopher'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Gopher'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'HeightmapApi'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/HeightmapApi'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'HivePlan'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/HivePlan'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'InceptionAndStoryBridgeToDev'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/InceptionAndStoryBridgeToDev'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'KarlaAuralisKraxBridge'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/KarlaAuralisKraxBridge'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Keyboard'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Keyboard'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Krax'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Krax'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Mason'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Mason'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Matchmaker'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Matchmaker'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'MyOwnAgent'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/MyOwnAgent'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'OffTheRailsProjects'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/OffTheRailsProjects'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Personal_Executive_Function'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Personal_Executive_Function'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Piper'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Piper'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'PiperArms'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/PiperArms'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'PiperStoryArchitect'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'PiperStoryArchitect'
+url = 'https://github.com/CraigThomasParsons/PiperStoryArchitect.git'
+
+[repo.local]
+path = '/home/craigpar/Code/PiperStoryArchitect'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Portfolio'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Portfolio'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'PortfolioWordPressInLaravel'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/PortfolioWordPressInLaravel'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ProjectsWorkBenchToAutoPipeline'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ProjectsWorkBenchToAutoPipeline'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'RTSColonyTerrainGenerator'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'RTSColonyTerrainGenerator'
+url = 'https://github.com/CraigThomasParsons/RTSColonyTerrainGenerator.git'
+
+[repo.local]
+path = '/home/craigpar/Code/RTSColonyTerrainGenerator'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'SimCity'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/SimCity'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'StarCraft'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/StarCraft'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'StormLib'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/StormLib'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Tenacious-C'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Tenacious-C'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TheDevBacklog'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'TheDevBacklog'
+url = 'https://github.com/CraigThomasParsons/TheDevBacklog.git'
+
+[repo.local]
+path = '/home/craigpar/Code/TheDevBacklog'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ThePostalService'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/ThePostalService'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TheQAQueue'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'TheQAQueue'
+url = 'https://github.com/CraigThomasParsons/TheQAQueue.git'
+
+[repo.local]
+path = '/home/craigpar/Code/TheQAQueue'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TheReflection'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/TheReflection'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TheWritersRoom'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'TheWritersRoom'
+url = 'https://github.com/CraigThomasParsons/TheWritersRoom.git'
+
+[repo.local]
+path = '/home/craigpar/Code/TheWritersRoom'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TodoApp'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/TodoApp'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TodoMockApp'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/TodoMockApp'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'TodoPrompts'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/TodoPrompts'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Vera'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/Vera'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'WARGUS'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/WARGUS'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'WarStar'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/WarStar'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'WordpressInLaravel'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'WordpressInLaravel'
+url = 'https://github.com/CraigThomasParsons/WordpressInLaravel.git'
+
+[repo.local]
+path = '/home/craigpar/Code/WordpressInLaravel'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'WorldBuilding'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/WorldBuilding'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'bandcamp-downloader'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/bandcamp-downloader'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'beads'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/beads'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'bridgit-sync-engine'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/bridgit-sync-engine'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'clawd'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/clawd'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'configuration'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/configuration'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'goose'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/goose'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'mason-watch'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/mason-watch'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'openclaude'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/openclaude'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'pro-html5-games-17'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/pro-html5-games-17'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'rts-colony-survival-chat'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'rts-colony-survival-chat'
+url = 'https://github.com/CraigThomasParsons/rts-colony-survival-chat.git'
+
+[repo.local]
+path = '/home/craigpar/Code/rts-colony-survival-chat'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'scmDraft'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/scmDraft'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'spotitube'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/spotitube'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'stargus'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/stargus'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'stratagus'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/stratagus'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'warcraft2-map-editor'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/warcraft2-map-editor'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'yt-dlp'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = ''
+url = ''
+
+[repo.local]
+path = '/home/craigpar/Code/yt-dlp'
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Artificial-intelligence'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'Artificial-intelligence'
+url = 'https://github.com/CraigThomasParsons/Artificial-intelligence.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'AuralisConduit'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'AuralisConduit'
+url = 'https://github.com/CraigThomasParsons/AuralisConduit.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'BridgitBridgertonTheOneWhoBuildsBridges'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'BridgitBridgertonTheOneWhoBuildsBridges'
+url = 'https://github.com/CraigThomasParsons/BridgitBridgertonTheOneWhoBuildsBridges.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'colony'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'colony'
+url = 'https://github.com/CraigThomasParsons/colony.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'CraigThomasParsons'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'CraigThomasParsons'
+url = 'https://github.com/CraigThomasParsons/CraigThomasParsons.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'craigthomasparsons.github.io'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'craigthomasparsons.github.io'
+url = 'https://github.com/CraigThomasParsons/craigthomasparsons.github.io.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'dotfiles'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'dotfiles'
+url = 'https://github.com/CraigThomasParsons/dotfiles.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'end_of_eden'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'end_of_eden'
+url = 'https://github.com/CraigThomasParsons/end_of_eden.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'GopherFlashRivet'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'GopherFlashRivet'
+url = 'https://github.com/CraigThomasParsons/GopherFlashRivet.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'KraxSuperGrokCode'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'KraxSuperGrokCode'
+url = 'https://github.com/CraigThomasParsons/KraxSuperGrokCode.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'learning-more-laravel'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'learning-more-laravel'
+url = 'https://github.com/CraigThomasParsons/learning-more-laravel.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'LearningNewThings'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'LearningNewThings'
+url = 'https://github.com/CraigThomasParsons/LearningNewThings.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'MasonTaskCompiler'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'MasonTaskCompiler'
+url = 'https://github.com/CraigThomasParsons/MasonTaskCompiler.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'Projects'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'Projects'
+url = 'https://github.com/CraigThomasParsons/Projects.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'ProjectsWorkBench2AIAutoPipeline'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'ProjectsWorkBench2AIAutoPipeline'
+url = 'https://github.com/CraigThomasParsons/ProjectsWorkBench2AIAutoPipeline.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'rts'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'rts'
+url = 'https://github.com/CraigThomasParsons/rts.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'rts-colony-chat'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'rts-colony-chat'
+url = 'https://github.com/CraigThomasParsons/rts-colony-chat.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'todo.txt-cli'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'todo.txt-cli'
+url = 'https://github.com/CraigThomasParsons/todo.txt-cli.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'truematch-engine'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'truematch-engine'
+url = 'https://github.com/CraigThomasParsons/truematch-engine.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'VeraQualityVerifier'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'VeraQualityVerifier'
+url = 'https://github.com/CraigThomasParsons/VeraQualityVerifier.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []
+
+[[repo]]
+id = 'wallpaper'
+
+[repo.chat]
+project_name = ''
+project_id = ''
+
+[repo.github]
+name = 'wallpaper'
+url = 'https://github.com/CraigThomasParsons/wallpaper.git'
+
+[repo.local]
+path = ''
+
+[repo.aliases]
+names = []
+paths = []

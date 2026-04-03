@@ -1,0 +1,26 @@
+# FilesystemRouterBridge — Route Definitions
+#
+# Each route maps a source outbox to a destination inbox.
+# The router watches source directories and copies/moves packages
+# to the correct destination based on these rules.
+#
+# Pattern: source_outbox → destination_inbox
+# The letter.toml inside each package determines the final recipient.
+
+[[route]]
+name = "chatgpt-to-chatprojects"
+source = "bridges/ChatGptToChatProjectsBridge/outbox"
+destination = "bridges/ChatProjectsToKraxBridge/inbox"
+pattern = "*"
+
+[[route]]
+name = "chatprojects-to-runtime"
+source = "bridges/ChatProjectsToKraxBridge/outbox"
+destination = "runtime/inbox"
+pattern = "*"
+
+[[route]]
+name = "runtime-to-archive"
+source = "runtime/outbox"
+destination = "runtime/archive"
+pattern = "*"

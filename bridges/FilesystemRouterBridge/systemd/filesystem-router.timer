@@ -1,0 +1,14 @@
+[Unit]
+# Timer for the FilesystemRouterBridge — fires every 30 seconds.
+#
+# Frequent polling ensures packages move through the pipeline quickly.
+# 30 seconds balances responsiveness with minimal filesystem overhead.
+Description=Bridgit Filesystem Router Timer
+
+[Timer]
+OnBootSec=10s
+OnUnitActiveSec=30s
+Unit=filesystem-router.service
+
+[Install]
+WantedBy=timers.target

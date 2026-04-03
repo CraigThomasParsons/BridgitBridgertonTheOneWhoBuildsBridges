@@ -30,6 +30,7 @@ target/
 Cargo.lock
 
 # Go
+bin/
 *.exe
 *.exe~
 *.dll

@@ -10,6 +10,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"unicode/utf8"
 )
 
 // Node represents a single directory or file in the parsed tree structure.
@@ -49,10 +50,11 @@ var (
 // Blank lines and lines that clean to empty strings are skipped.
 //
 // Example tree input:
-//   src/
-//   │   main.go
-//   │   parser/
-//   │   │   tree_parser.go
+//
+//	src/
+//	│   main.go
+//	│   parser/
+//	│   │   tree_parser.go
 //
 // Produces nodes with paths: "src/", "src/main.go", "src/parser/", "src/parser/tree_parser.go"
 func Parse(path string) ([]Node, error) {
@@ -119,8 +121,13 @@ func Parse(path string) ([]Node, error) {
 		})
 	}
 
+	// Check for scanner errors that may have occurred during reading.
+	// Without this check, truncated tree files would silently produce partial results.
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
 	// Return all parsed nodes.
-	// Scanner errors are not checked here but should be in production code.
 	return nodes, nil
 }
 
@@ -134,9 +141,10 @@ func parseDepth(line string) int {
 	// Extract the prefix portion (all indentation/tree chars before the name).
 	match := prefixRegex.FindString(line)
 
-	// Divide by 4 since each depth level is 4 characters.
-	// Integer division gives us the exact depth count.
-	return len(match) / 4
+	// Count runes instead of bytes because tree drawing characters (│, ├, └, ─)
+	// are multi-byte in UTF-8 (3 bytes each). Using len() would over-count depth
+	// and produce corrupted paths like "internal/builder/main.go/filesystem.go".
+	return utf8.RuneCountInString(match) / 4
 }
 
 // cleanName removes tree drawing characters and comments from a tree line.

@@ -5,6 +5,9 @@
 // file loader (e.g., Viper or envconfig).
 package config
 
+// Importing os for future environment variable support, currently unused.
+import "os"
+
 // Config holds all runtime configuration required for Bridgit execution.
 //
 // CodeRoot defines the local filesystem path where repositories are scanned.
@@ -31,10 +34,19 @@ type Config struct {
 // - Support CLI flag overrides (e.g., --code-root /custom/path)
 // - Validate paths exist and are readable before returning
 func Load() Config {
+
+	// Grab the user's home directory to construct a plausible default code root.
+	home, err := os.UserHomeDir()
+
+	if err != nil {
+		// fallback (very unlikely to fail, but safe)
+		home = "/tmp"
+	}
+
 	// Return hardcoded values for initial development.
 	// These paths are specific to the development environment.
 	return Config{
-		CodeRoot:     "/home/me/Code",
+		CodeRoot:     home + "/Code",
 		RegistryPath: "./registry/repo_registry.toml",
 		GitHubOwner:  "CraigThomasParsons",
 	}
