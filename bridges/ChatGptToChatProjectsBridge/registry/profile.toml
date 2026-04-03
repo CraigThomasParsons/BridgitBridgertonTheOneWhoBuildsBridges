@@ -1,0 +1,3 @@
+service_name = "chatgpt-projects-bridge"
+outbox_path = "/home/craigpar/Code/ChatGptToChatProjectsBridge/outbox"
+inbox_path = "/home/craigpar/Code/ChatGptToChatProjectsBridge/inbox"

@@ -1,0 +1,21 @@
+[Unit]
+Description=ChatProjects Token Refresh API Server
+Documentation=file:///home/craigpar/Code/ChatGptToChatProjectsBridge/chrome_extension/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=craigpar
+WorkingDirectory=/home/craigpar/Code/ChatGptToChatProjectsBridge
+ExecStart=/usr/bin/python3 /home/craigpar/Code/ChatGptToChatProjectsBridge/bin/token_api_server.py
+Restart=on-failure
+RestartSec=10
+
+# Keep the service running
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=chatprojects-token-api
+
+[Install]
+WantedBy=default.target

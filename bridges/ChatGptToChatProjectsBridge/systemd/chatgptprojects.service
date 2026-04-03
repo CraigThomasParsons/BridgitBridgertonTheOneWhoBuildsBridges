@@ -1,0 +1,14 @@
+[Unit]
+Description=ChatGptToChatProjectsBridge — fetch ChatGPT projects and route to ChatProjects
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/Code/ChatGptToChatProjectsBridge/venv/bin/python3 %h/Code/ChatGptToChatProjectsBridge/bin/extract_projects.py
+WorkingDirectory=%h/Code/ChatGptToChatProjectsBridge
+EnvironmentFile=%h/Code/ChatGptToChatProjectsBridge/.env
+StandardOutput=append:%h/Code/ChatGptToChatProjectsBridge/logs/extract.log
+StandardError=append:%h/Code/ChatGptToChatProjectsBridge/logs/extract.log
+
+[Install]
+WantedBy=default.target

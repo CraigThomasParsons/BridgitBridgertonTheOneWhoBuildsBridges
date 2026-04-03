@@ -1,0 +1,55 @@
+# Runtime directories - operational data, not source
+runtime/archive/
+runtime/failed/
+runtime/inbox/
+runtime/outbox/
+
+# Bridge-specific runtime directories
+bridges/*/inbox/
+bridges/*/outbox/
+bridges/*/logs/
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment files - contain secrets
+.env
+.env.local
+.env.*.local
+
+# Rust
+target/
+Cargo.lock
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Logs
+*.log
+logs/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# System files
+Thumbs.db
