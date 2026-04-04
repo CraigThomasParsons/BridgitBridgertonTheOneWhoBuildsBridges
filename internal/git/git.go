@@ -1,8 +1,7 @@
-// Package git provides local git repository inspection for Bridgit.
+// Package git provides local git repository inspection and provisioning for Bridgit.
 //
-// Bridgit never mutates git state — no clones, no pushes, no commits.
-// This package only reads existing git metadata to help the matcher
-// identify which GitHub repo a local directory belongs to.
+// Read-only operations (remote detection, URL parsing) live in git.go.
+// Write operations (clone, init, push) for the provisioning phase live in write.go.
 package git
 
 import (

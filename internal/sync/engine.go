@@ -370,6 +370,67 @@ func (engine *Engine) Run() (*report.Report, error) {
 	issueCount := len(reconcileResults) - okCount
 	syncReport.Add(fmt.Sprintf("\n%d OK, %d issues detected", okCount, issueCount))
 
+	// --- Phase 5b: Provisioning ---
+	// Act on reconciliation findings to create missing repos, clone existing
+	// ones, and flag ambiguous states for operator review.
+	// Only runs when EnableProvisioning is explicitly set to true.
+	if engine.cfg.EnableProvisioning {
+		engine.emitter.Emit(contracts.Event{
+			Type:    contracts.PhaseStarted,
+			Phase:   "provision",
+			Message: "starting automated repo provisioning",
+		})
+
+		// Evaluate every registry entry against the provisioning decision matrix.
+		provisionResults := ProvisionRepos(engine.reg, engine.cfg, githubRepos, engine.emitter)
+
+		// Report provisioning results for operator visibility.
+		if len(provisionResults) > 0 {
+			syncReport.Add("")
+			syncReport.Add("== Provisioning Report ==")
+			syncReport.Add("")
+
+			provisionedCount := 0
+			reviewCount := 0
+			failedCount := 0
+			for _, provisionResult := range provisionResults {
+				switch provisionResult.Action {
+				case "CREATED_BOTH", "CLONED", "INITIALIZED", "LINKED":
+					// Successfully provisioned — print details for operator awareness.
+					provisionedCount++
+					syncReport.Add(fmt.Sprintf("PROVISIONED [%s]: %s", provisionResult.Action, provisionResult.RepoID))
+					for _, detailLine := range provisionResult.Details {
+						syncReport.Add(fmt.Sprintf("  → %s", detailLine))
+					}
+				case "FLAGGED_REVIEW":
+					// Requires manual intervention — highlight prominently.
+					reviewCount++
+					syncReport.Add(fmt.Sprintf("REVIEW NEEDED: %s", provisionResult.RepoID))
+					for _, detailLine := range provisionResult.Details {
+						syncReport.Add(fmt.Sprintf("  → %s", detailLine))
+					}
+				case "FAILED":
+					// Provisioning action failed — report the error.
+					failedCount++
+					syncReport.Add(fmt.Sprintf("FAILED: %s", provisionResult.RepoID))
+					for _, detailLine := range provisionResult.Details {
+						syncReport.Add(fmt.Sprintf("  → %s", detailLine))
+					}
+				}
+			}
+
+			// Summary line for the provisioning phase.
+			syncReport.Add(fmt.Sprintf("\n%d provisioned, %d flagged for review, %d failed",
+				provisionedCount, reviewCount, failedCount))
+		}
+
+		engine.emitter.Emit(contracts.Event{
+			Type:    contracts.PhaseCompleted,
+			Phase:   "provision",
+			Message: "automated repo provisioning complete",
+		})
+	}
+
 	// --- Phase 6: Intake ---
 	// Process packages in the runtime inbox: read letter.toml, resolve
 	// project_id to repo_id via registry, generate manifest.toml, and

@@ -53,6 +53,11 @@ type Config struct {
 	// Default false — opt-in to prevent unexpected filesystem mutations.
 	EnableIntake bool
 
+	// EnableProvisioning controls whether the provisioning phase creates
+	// local directories, GitHub repos, and links them together. Default false
+	// — opt-in to prevent unexpected filesystem and GitHub mutations.
+	EnableProvisioning bool
+
 	// LLMAPIKey authenticates requests to the LLM API (OpenAI-compatible).
 	// Read from LLM_API_KEY environment variable, falls back to GROQ_API_KEY.
 	// If empty, LLM-based fuzzy matching is silently skipped.
@@ -106,7 +111,8 @@ func Load() Config {
 		EnableProjection: false,
 		InboxPath:        "./runtime/inbox",
 		FailedPath:       "./runtime/failed",
-		EnableIntake:     false,
+		EnableIntake:       false,
+		EnableProvisioning: false,
 		LLMAPIKey:  getEnvOrDefault("LLM_API_KEY", os.Getenv("GROQ_API_KEY")),
 		LLMBaseURL: getEnvOrDefault("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
 		LLMModel:   getEnvOrDefault("LLM_MODEL", "llama-3.3-70b-versatile"),

@@ -46,6 +46,19 @@ const (
 	// ArtifactSkipped fires when an artifact projection is skipped
 	// because the destination already exists or no rule matches.
 	ArtifactSkipped EventType = "artifact.skipped"
+
+	// RepoProvisioned fires when the provisioning phase successfully creates,
+	// clones, or links a repository. Metadata includes the action taken.
+	RepoProvisioned EventType = "repo.provisioned"
+
+	// ProvisioningFailed fires when a provisioning action fails. The repo
+	// is left in its current state for the operator to investigate.
+	ProvisioningFailed EventType = "provisioning.failed"
+
+	// ProvisioningReviewNeeded fires when the provisioning phase encounters
+	// a state that requires human judgment (e.g., local folder has code that
+	// doesn't match the existing GitHub repo).
+	ProvisioningReviewNeeded EventType = "provisioning.review_needed"
 )
 
 // Event captures a single lifecycle occurrence during sync execution.
