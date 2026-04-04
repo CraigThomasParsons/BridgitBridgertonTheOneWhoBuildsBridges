@@ -78,8 +78,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'AuralisConduit'
+url = 'https://github.com/CraigThomasParsons/AuralisConduit.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Auralis'
@@ -150,8 +150,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'Projects'
+url = 'https://github.com/CraigThomasParsons/Projects.git'
 
 [repo.local]
 path = '/home/craigpar/Code/ChatProjects'
@@ -258,8 +258,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'GopherFlashRivet'
+url = 'https://github.com/CraigThomasParsons/GopherFlashRivet.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Gopher'
@@ -366,8 +366,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'KraxSuperGrokCode'
+url = 'https://github.com/CraigThomasParsons/KraxSuperGrokCode.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Krax'
@@ -384,8 +384,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'MasonTaskCompiler'
+url = 'https://github.com/CraigThomasParsons/MasonTaskCompiler.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Mason'
@@ -402,8 +402,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'truematch-engine'
+url = 'https://github.com/CraigThomasParsons/truematch-engine.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Matchmaker'
@@ -438,8 +438,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'Projects'
+url = 'https://github.com/CraigThomasParsons/Projects.git'
 
 [repo.local]
 path = '/home/craigpar/Code/OffTheRailsProjects'
@@ -564,8 +564,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'ProjectsWorkBench2AIAutoPipeline'
+url = 'https://github.com/CraigThomasParsons/ProjectsWorkBench2AIAutoPipeline.git'
 
 [repo.local]
 path = '/home/craigpar/Code/ProjectsWorkBenchToAutoPipeline'
@@ -816,8 +816,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'VeraQualityVerifier'
+url = 'https://github.com/CraigThomasParsons/VeraQualityVerifier.git'
 
 [repo.local]
 path = '/home/craigpar/Code/Vera'
@@ -942,8 +942,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'BridgitBridgertonTheOneWhoBuildsBridges'
+url = 'https://github.com/CraigThomasParsons/BridgitBridgertonTheOneWhoBuildsBridges.git'
 
 [repo.local]
 path = '/home/craigpar/Code/bridgit-sync-engine'

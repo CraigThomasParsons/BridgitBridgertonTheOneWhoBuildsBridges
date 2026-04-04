@@ -44,11 +44,12 @@ func NewEngine(cfg config.Config, reg *registry.Registry) *Engine {
 
 // Run executes the full synchronization workflow across all sources.
 //
-// This function performs four phases:
+// This function performs five phases:
 //  1. Fetch: Pull data from ChatGPT projects, GitHub API, and local filesystem
-//  2. Register: Auto-register newly discovered local repos into the registry
-//  3. Enrich: Cross-link registry entries with GitHub and ChatProjects data
-//  4. Report: Accumulate findings for operator review
+//  2. Adopt: Discover unregistered local repos and optionally add to registry
+//  3. Resolve: Run identity matching (git remote → alias → normalized name)
+//  4. Enrich: Cross-link registry entries with GitHub and ChatProjects data
+//  5. Report: Accumulate findings for operator review
 //
 // Errors from individual sources are logged as warnings in the report,
 // allowing other sources to proceed even if one fails.
@@ -138,9 +139,55 @@ func (e *Engine) Run() (*report.Report, error) {
 	}
 	r.Add("")
 
-	// --- Phase 3: Enrich registry with GitHub data ---
-	// Cross-link registry entries with GitHub repos by matching names.
-	// This fills in GitHub.Name and GitHub.URL for repos that exist on GitHub.
+	// --- Phase 3: Identity Resolution ---
+	// Run the matching pipeline across all local repos to link them with
+	// GitHub repos and registry entries. This uses git remotes as the
+	// highest-confidence signal, falling back to aliases and normalized names.
+	matchResults := MatchAll(localRepos, e.reg, githubRepos)
+
+	// Counters for the match summary line.
+	matchCountByStrategy := map[string]int{
+		"git":        0,
+		"alias":      0,
+		"normalized": 0,
+		"none":       0,
+	}
+
+	for _, match := range matchResults {
+		matchCountByStrategy[match.Strategy]++
+
+		switch match.Strategy {
+		case "git":
+			r.Add(fmt.Sprintf("MATCHED (git): %s → %s", match.LocalName, match.RepoID))
+
+			// Use the git remote to enrich the registry entry with GitHub data.
+			// This is the most reliable link — the repo itself declares its origin.
+			e.enrichFromGitMatch(match, githubRepos)
+
+		case "alias":
+			r.Add(fmt.Sprintf("MATCHED (alias): %s → %s", match.LocalName, match.RepoID))
+
+		case "normalized":
+			r.Add(fmt.Sprintf("MATCHED (normalized): %s → %s", match.LocalName, match.RepoID))
+
+		case "none":
+			r.Add(fmt.Sprintf("UNRESOLVED: %s", match.LocalName))
+		}
+	}
+
+	// Print a one-line summary of match distribution.
+	r.Add(fmt.Sprintf(
+		"\nIdentity resolution: %d git, %d alias, %d normalized, %d unresolved",
+		matchCountByStrategy["git"],
+		matchCountByStrategy["alias"],
+		matchCountByStrategy["normalized"],
+		matchCountByStrategy["none"],
+	))
+	r.Add("")
+
+	// --- Phase 4: Enrich registry with remaining GitHub data ---
+	// Cross-link registry entries with GitHub repos that weren't already
+	// linked by the git remote matcher. Uses name-based fallback matching.
 	enrichedGitHubCount := 0
 	for _, ghRepo := range githubRepos {
 		// Find a matching registry entry by name comparison.
@@ -170,7 +217,7 @@ func (e *Engine) Run() (*report.Report, error) {
 		r.Add(fmt.Sprintf("Enriched %d repo(s) with GitHub metadata.", enrichedGitHubCount))
 	}
 
-	// --- Phase 3b: Enrich registry with ChatProjects data ---
+	// --- Phase 4b: Enrich registry with ChatProjects data ---
 	// Cross-link registry entries with ChatGPT project data.
 	enrichedChatCount := 0
 	for _, chatProject := range chatProjects {
@@ -260,4 +307,48 @@ func (e *Engine) findRepoByNameMatch(sourceName string) *registry.Repo {
 
 	// No match found across any strategy.
 	return nil
+}
+
+// enrichFromGitMatch updates a registry entry with GitHub metadata discovered
+// via the git remote. This is the highest-confidence enrichment path because
+// the repo's own .git/config declares its GitHub identity.
+//
+// If the matched repo ID corresponds to a registry entry, its GitHub fields
+// are filled in from the API data. If no registry entry exists yet, a new
+// one is created so the GitHub link isn't lost.
+func (e *Engine) enrichFromGitMatch(match MatchResult, githubRepos []GitHubRepo) {
+	// Find the GitHub API entry that matches the git remote name.
+	var matchedGitHub *GitHubRepo
+	for i := range githubRepos {
+		if strings.EqualFold(githubRepos[i].Name, match.GitHubName) {
+			matchedGitHub = &githubRepos[i]
+			break
+		}
+	}
+
+	// If the GitHub API doesn't know this repo, we can't enrich further.
+	// The match itself is still valid — just no URL to fill in.
+	if matchedGitHub == nil {
+		return
+	}
+
+	// Find the registry entry to enrich. Try by local path first (most precise),
+	// then fall back to the matched repo ID.
+	registryEntry := e.findRepoByLocalPath(match.LocalPath)
+	if registryEntry == nil {
+		registryEntry = e.findRepoByNameMatch(match.RepoID)
+	}
+
+	// If no registry entry exists, nothing to enrich.
+	// Phase 2 adoption should have created it already.
+	if registryEntry == nil {
+		return
+	}
+
+	// Fill in GitHub metadata only if not already set.
+	// Avoids overwriting data from a previous, possibly more complete, enrichment.
+	if registryEntry.GitHub.Name == "" {
+		registryEntry.GitHub.Name = matchedGitHub.Name
+		registryEntry.GitHub.URL = matchedGitHub.URL
+	}
 }
