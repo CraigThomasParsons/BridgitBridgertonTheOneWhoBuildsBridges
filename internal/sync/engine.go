@@ -44,13 +44,14 @@ func NewEngine(cfg config.Config, reg *registry.Registry) *Engine {
 
 // Run executes the full synchronization workflow across all sources.
 //
-// This function performs six phases:
+// This function performs seven phases:
 //  1. Fetch: Pull data from ChatGPT projects, GitHub API, and local filesystem
 //  2. Adopt: Discover unregistered local repos and optionally add to registry
 //  3. Resolve: Run identity matching (git remote → alias → normalized name)
 //  4. Enrich: Cross-link registry entries with GitHub and ChatProjects data
 //  5. Reconcile: Detect drift between registry, GitHub, and local filesystem
-//  6. Report: Accumulate findings for operator review
+//  6. Project: Copy archive artifacts into target repo docs/ folders
+//  7. Report: Accumulate findings for operator review
 //
 // Errors from individual sources are logged as warnings in the report,
 // allowing other sources to proceed even if one fails.
@@ -275,6 +276,46 @@ func (engine *Engine) Run() (*report.Report, error) {
 	// Summary line gives operators a quick pass/fail signal.
 	issueCount := len(reconcileResults) - okCount
 	syncReport.Add(fmt.Sprintf("\n%d OK, %d issues detected", okCount, issueCount))
+
+	// --- Phase 6: Projection ---
+	// Copy archive artifacts into target repo docs/ folders.
+	// Only runs when EnableProjection is explicitly set to true.
+	if engine.cfg.EnableProjection {
+		projectionRules := DefaultArtifactRules()
+		projectionResults := ProjectArtifacts(engine.cfg.ArchivePath, engine.reg, projectionRules)
+
+		// Only print the projection report when there are results to show.
+		if len(projectionResults) > 0 {
+			syncReport.Add("")
+			syncReport.Add("== Projection Report ==")
+			syncReport.Add("")
+
+			// Count successful copies for the summary line.
+			copiedCount := 0
+			for _, projectionResult := range projectionResults {
+				switch projectionResult.Action {
+				case "COPIED":
+					copiedCount++
+					syncReport.Add(fmt.Sprintf("PROJECTED: %s → %s", projectionResult.SourceFile, projectionResult.DestFile))
+
+				case "SKIPPED_EXISTS":
+					syncReport.Add(fmt.Sprintf("SKIPPED (exists): %s", projectionResult.DestFile))
+
+				case "SKIPPED_NO_RULE":
+					// Silently skip unrecognized files to avoid noise.
+
+				case "FAILED":
+					syncReport.Add(fmt.Sprintf("FAILED: %s → %s (%s)", projectionResult.SourceFile, projectionResult.DestFile, projectionResult.Reason))
+
+				default:
+					// SKIPPED_NO_LOCAL, SKIPPED_UNREGISTERED — report for visibility.
+					syncReport.Add(fmt.Sprintf("%s: %s (%s)", projectionResult.Action, projectionResult.RepoID, projectionResult.Reason))
+				}
+			}
+
+			syncReport.Add(fmt.Sprintf("\n%d artifact(s) projected.", copiedCount))
+		}
+	}
 
 	// --- Summary ---
 	syncReport.Add("")

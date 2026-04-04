@@ -30,6 +30,15 @@ type Config struct {
 	// added to the registry. When false (default), Bridgit only reports
 	// candidates without mutating state — a safe preview mode.
 	AutoAdopt bool
+
+	// ArchivePath is the directory where bridge job outputs are stored.
+	// Projection reads from here and copies artifacts into repo docs/ folders.
+	// Defaults to runtime/archive/ relative to the registry file.
+	ArchivePath string
+
+	// EnableProjection controls whether Phase 6 artifact projection runs.
+	// Default false — opt-in like AutoAdopt to prevent unexpected writes.
+	EnableProjection bool
 }
 
 // Load returns a Config instance with hardcoded development values.
@@ -53,9 +62,11 @@ func Load() Config {
 	// AutoAdopt defaults to false so the first run is always a safe preview.
 	// Flip to true once you've reviewed the candidate output.
 	return Config{
-		CodeRoot:     home + "/Code",
-		RegistryPath: "./registry/repo_registry.toml",
-		GitHubOwner:  "CraigThomasParsons",
-		AutoAdopt:    false,
+		CodeRoot:         home + "/Code",
+		RegistryPath:     "./registry/repo_registry.toml",
+		GitHubOwner:      "CraigThomasParsons",
+		AutoAdopt:        false,
+		ArchivePath:      "./runtime/archive",
+		EnableProjection: false,
 	}
 }
