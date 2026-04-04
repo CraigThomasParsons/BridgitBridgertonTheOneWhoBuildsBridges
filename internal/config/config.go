@@ -25,6 +25,11 @@ type Config struct {
 	// GitHubOwner is the GitHub username or organization to fetch repos from.
 	// Used by the GitHub sync adapter to list remote repositories.
 	GitHubOwner string
+
+	// AutoAdopt controls whether unregistered local repos are automatically
+	// added to the registry. When false (default), Bridgit only reports
+	// candidates without mutating state — a safe preview mode.
+	AutoAdopt bool
 }
 
 // Load returns a Config instance with hardcoded development values.
@@ -45,9 +50,12 @@ func Load() Config {
 
 	// Return hardcoded values for initial development.
 	// These paths are specific to the development environment.
+	// AutoAdopt defaults to false so the first run is always a safe preview.
+	// Flip to true once you've reviewed the candidate output.
 	return Config{
 		CodeRoot:     home + "/Code",
 		RegistryPath: "./registry/repo_registry.toml",
 		GitHubOwner:  "CraigThomasParsons",
+		AutoAdopt:    false,
 	}
 }

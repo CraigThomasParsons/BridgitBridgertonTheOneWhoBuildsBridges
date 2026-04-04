@@ -89,29 +89,52 @@ func (e *Engine) Run() (*report.Report, error) {
 	r.Add(fmt.Sprintf("Local Repos:   %d", len(localRepos)))
 	r.Add("")
 
-	// --- Phase 2: Auto-register local repos ---
-	// Any local directory not already in the registry gets registered automatically.
-	// This replaces the old "ORPHAN" reporting with actionable registration.
-	registeredCount := 0
+	// --- Phase 2: Discover and adopt unregistered local repos ---
+	// Scans local directories, filters noise (dotfiles), builds candidates,
+	// and either reports them (preview mode) or persists them (AutoAdopt).
+	adoptedCount := 0
+	candidateCount := 0
+
 	for _, local := range localRepos {
-		// Check if this local path already exists in the registry.
+		// Skip system directories and dotfiles — they aren't real projects.
+		if isIgnored(local.Name) {
+			continue
+		}
+
+		// Check if this local path already has a registry entry.
 		if e.findRepoByLocalPath(local.Path) != nil {
 			continue
 		}
 
-		// Auto-register this newly discovered local repo.
-		// Use the directory name as the ID since it's the most human-readable.
-		newRepo := registry.Repo{}
-		newRepo.ID = local.Name
-		newRepo.Local.Path = local.Path
-		e.reg.Repos = append(e.reg.Repos, newRepo)
-		registeredCount++
+		// Build a structured candidate from the raw scan result.
+		candidate := BuildCandidate(local)
+		candidateCount++
 
-		r.Add(fmt.Sprintf("REGISTERED: %s → %s", local.Name, local.Path))
+		// Always report the discovery so operators can review.
+		r.Add(fmt.Sprintf("UNREGISTERED LOCAL: %s", local.Path))
+		r.Add(fmt.Sprintf("→ suggested id: %s", candidate.ID))
+
+		// Only mutate the registry when AutoAdopt is explicitly enabled.
+		// This keeps the default run safe and side-effect free.
+		if e.cfg.AutoAdopt {
+			// Guard against duplicate IDs from repeated runs.
+			if existsInRegistry(e.reg, candidate.ID) {
+				r.Add("⚠ skipped (ID already exists in registry)")
+				continue
+			}
+
+			AddToRegistry(e.reg, candidate)
+			adoptedCount++
+			r.Add("✓ adopted into registry")
+		}
 	}
 
-	if registeredCount > 0 {
-		r.Add(fmt.Sprintf("\nAuto-registered %d new local repo(s).", registeredCount))
+	// Summarize adoption results for quick operator feedback.
+	if candidateCount > 0 && !e.cfg.AutoAdopt {
+		r.Add(fmt.Sprintf("\nFound %d unregistered repo(s). Set AutoAdopt=true to adopt.", candidateCount))
+	}
+	if adoptedCount > 0 {
+		r.Add(fmt.Sprintf("\nAdopted %d new repo(s) into registry.", adoptedCount))
 	}
 	r.Add("")
 

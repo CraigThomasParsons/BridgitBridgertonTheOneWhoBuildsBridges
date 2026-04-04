@@ -1,41 +1,5 @@
 [[repo]]
-id = '.claude'
-
-[repo.chat]
-project_name = ''
-project_id = ''
-
-[repo.github]
-name = ''
-url = ''
-
-[repo.local]
-path = '/home/craigpar/Code/.claude'
-
-[repo.aliases]
-names = []
-paths = []
-
-[[repo]]
-id = '.vscode'
-
-[repo.chat]
-project_name = ''
-project_id = ''
-
-[repo.github]
-name = ''
-url = ''
-
-[repo.local]
-path = '/home/craigpar/Code/.vscode'
-
-[repo.aliases]
-names = []
-paths = []
-
-[[repo]]
-id = 'AgentsOfTheWritersRoom'
+id = 'agentsofthewritersroom'
 
 [repo.chat]
 project_name = ''
@@ -49,11 +13,11 @@ url = ''
 path = '/home/craigpar/Code/AgentsOfTheWritersRoom'
 
 [repo.aliases]
-names = []
+names = ['AgentsOfTheWritersRoom']
 paths = []
 
 [[repo]]
-id = 'AgileMedievalPeasantBoard'
+id = 'agilemedievalpeasantboard'
 
 [repo.chat]
 project_name = ''
@@ -67,11 +31,11 @@ url = 'https://github.com/CraigThomasParsons/AgileMedievalPeasantBoard.git'
 path = '/home/craigpar/Code/AgileMedievalPeasantBoard'
 
 [repo.aliases]
-names = []
+names = ['AgileMedievalPeasantBoard']
 paths = []
 
 [[repo]]
-id = 'ArcaneArcadeMachineFactory'
+id = 'arcanearcademachinefactory'
 
 [repo.chat]
 project_name = ''
@@ -85,11 +49,11 @@ url = 'https://github.com/CraigThomasParsons/ArcaneArcadeMachineFactory.git'
 path = '/home/craigpar/Code/ArcaneArcadeMachineFactory'
 
 [repo.aliases]
-names = []
+names = ['ArcaneArcadeMachineFactory']
 paths = []
 
 [[repo]]
-id = 'ArcaneArcadeMachineFactoryBackup'
+id = 'arcanearcademachinefactorybackup'
 
 [repo.chat]
 project_name = ''
@@ -103,11 +67,11 @@ url = ''
 path = '/home/craigpar/Code/ArcaneArcadeMachineFactoryBackup'
 
 [repo.aliases]
-names = []
+names = ['ArcaneArcadeMachineFactoryBackup']
 paths = []
 
 [[repo]]
-id = 'Auralis'
+id = 'auralis'
 
 [repo.chat]
 project_name = ''
@@ -121,11 +85,11 @@ url = ''
 path = '/home/craigpar/Code/Auralis'
 
 [repo.aliases]
-names = []
+names = ['Auralis']
 paths = []
 
 [[repo]]
-id = 'BandcampCollectionSync'
+id = 'bandcampcollectionsync'
 
 [repo.chat]
 project_name = ''
@@ -139,11 +103,11 @@ url = 'https://github.com/CraigThomasParsons/BandcampCollectionSync.git'
 path = '/home/craigpar/Code/BandcampCollectionSync'
 
 [repo.aliases]
-names = []
+names = ['BandcampCollectionSync']
 paths = []
 
 [[repo]]
-id = 'ChatGptBackup'
+id = 'chatgptbackup'
 
 [repo.chat]
 project_name = ''
@@ -157,11 +121,11 @@ url = ''
 path = '/home/craigpar/Code/ChatGptBackup'
 
 [repo.aliases]
-names = []
+names = ['ChatGptBackup']
 paths = []
 
 [[repo]]
-id = 'ChatGptToChatProjectsBridge'
+id = 'chatgpttochatprojectsbridge'
 
 [repo.chat]
 project_name = ''
@@ -175,11 +139,11 @@ url = ''
 path = '/home/craigpar/Code/ChatGptToChatProjectsBridge'
 
 [repo.aliases]
-names = []
+names = ['ChatGptToChatProjectsBridge']
 paths = []
 
 [[repo]]
-id = 'ChatProjects'
+id = 'chatprojects'
 
 [repo.chat]
 project_name = ''
@@ -193,11 +157,11 @@ url = ''
 path = '/home/craigpar/Code/ChatProjects'
 
 [repo.aliases]
-names = []
+names = ['ChatProjects']
 paths = []
 
 [[repo]]
-id = 'ChatProjectsToKraxBridge'
+id = 'chatprojectstokraxbridge'
 
 [repo.chat]
 project_name = ''
@@ -211,11 +175,11 @@ url = ''
 path = '/home/craigpar/Code/ChatProjectsToKraxBridge'
 
 [repo.aliases]
-names = []
+names = ['ChatProjectsToKraxBridge']
 paths = []
 
 [[repo]]
-id = 'ClaudiaCode'
+id = 'claudiacode'
 
 [repo.chat]
 project_name = ''
@@ -229,11 +193,11 @@ url = ''
 path = '/home/craigpar/Code/ClaudiaCode'
 
 [repo.aliases]
-names = []
+names = ['ClaudiaCode']
 paths = []
 
 [[repo]]
-id = 'ContextControlledDevelopmentFactory'
+id = 'contextcontrolleddevelopmentfactory'
 
 [repo.chat]
 project_name = ''
@@ -247,11 +211,11 @@ url = ''
 path = '/home/craigpar/Code/ContextControlledDevelopmentFactory'
 
 [repo.aliases]
-names = []
+names = ['ContextControlledDevelopmentFactory']
 paths = []
 
 [[repo]]
-id = 'Game'
+id = 'game'
 
 [repo.chat]
 project_name = ''
@@ -265,11 +229,11 @@ url = ''
 path = '/home/craigpar/Code/Game'
 
 [repo.aliases]
-names = []
+names = ['Game']
 paths = []
 
 [[repo]]
-id = 'GettingWineGamesToWork'
+id = 'gettingwinegamestowork'
 
 [repo.chat]
 project_name = ''
@@ -283,11 +247,11 @@ url = ''
 path = '/home/craigpar/Code/GettingWineGamesToWork'
 
 [repo.aliases]
-names = []
+names = ['GettingWineGamesToWork']
 paths = []
 
 [[repo]]
-id = 'Gopher'
+id = 'gopher'
 
 [repo.chat]
 project_name = ''
@@ -301,11 +265,11 @@ url = ''
 path = '/home/craigpar/Code/Gopher'
 
 [repo.aliases]
-names = []
+names = ['Gopher']
 paths = []
 
 [[repo]]
-id = 'HeightmapApi'
+id = 'heightmapapi'
 
 [repo.chat]
 project_name = ''
@@ -319,11 +283,11 @@ url = ''
 path = '/home/craigpar/Code/HeightmapApi'
 
 [repo.aliases]
-names = []
+names = ['HeightmapApi']
 paths = []
 
 [[repo]]
-id = 'HivePlan'
+id = 'hiveplan'
 
 [repo.chat]
 project_name = ''
@@ -337,11 +301,11 @@ url = ''
 path = '/home/craigpar/Code/HivePlan'
 
 [repo.aliases]
-names = []
+names = ['HivePlan']
 paths = []
 
 [[repo]]
-id = 'InceptionAndStoryBridgeToDev'
+id = 'inceptionandstorybridgetodev'
 
 [repo.chat]
 project_name = ''
@@ -355,11 +319,11 @@ url = ''
 path = '/home/craigpar/Code/InceptionAndStoryBridgeToDev'
 
 [repo.aliases]
-names = []
+names = ['InceptionAndStoryBridgeToDev']
 paths = []
 
 [[repo]]
-id = 'KarlaAuralisKraxBridge'
+id = 'karlaauraliskraxbridge'
 
 [repo.chat]
 project_name = ''
@@ -373,11 +337,11 @@ url = ''
 path = '/home/craigpar/Code/KarlaAuralisKraxBridge'
 
 [repo.aliases]
-names = []
+names = ['KarlaAuralisKraxBridge']
 paths = []
 
 [[repo]]
-id = 'Keyboard'
+id = 'keyboard'
 
 [repo.chat]
 project_name = ''
@@ -391,11 +355,11 @@ url = ''
 path = '/home/craigpar/Code/Keyboard'
 
 [repo.aliases]
-names = []
+names = ['Keyboard']
 paths = []
 
 [[repo]]
-id = 'Krax'
+id = 'krax'
 
 [repo.chat]
 project_name = ''
@@ -409,11 +373,11 @@ url = ''
 path = '/home/craigpar/Code/Krax'
 
 [repo.aliases]
-names = []
+names = ['Krax']
 paths = []
 
 [[repo]]
-id = 'Mason'
+id = 'mason'
 
 [repo.chat]
 project_name = ''
@@ -427,11 +391,11 @@ url = ''
 path = '/home/craigpar/Code/Mason'
 
 [repo.aliases]
-names = []
+names = ['Mason']
 paths = []
 
 [[repo]]
-id = 'Matchmaker'
+id = 'matchmaker'
 
 [repo.chat]
 project_name = ''
@@ -445,11 +409,11 @@ url = ''
 path = '/home/craigpar/Code/Matchmaker'
 
 [repo.aliases]
-names = []
+names = ['Matchmaker']
 paths = []
 
 [[repo]]
-id = 'MyOwnAgent'
+id = 'myownagent'
 
 [repo.chat]
 project_name = ''
@@ -463,11 +427,11 @@ url = ''
 path = '/home/craigpar/Code/MyOwnAgent'
 
 [repo.aliases]
-names = []
+names = ['MyOwnAgent']
 paths = []
 
 [[repo]]
-id = 'OffTheRailsProjects'
+id = 'offtherailsprojects'
 
 [repo.chat]
 project_name = ''
@@ -481,11 +445,11 @@ url = ''
 path = '/home/craigpar/Code/OffTheRailsProjects'
 
 [repo.aliases]
-names = []
+names = ['OffTheRailsProjects']
 paths = []
 
 [[repo]]
-id = 'Personal_Executive_Function'
+id = 'personal-executive-function'
 
 [repo.chat]
 project_name = ''
@@ -499,11 +463,11 @@ url = ''
 path = '/home/craigpar/Code/Personal_Executive_Function'
 
 [repo.aliases]
-names = []
+names = ['Personal_Executive_Function']
 paths = []
 
 [[repo]]
-id = 'Piper'
+id = 'piper'
 
 [repo.chat]
 project_name = ''
@@ -517,11 +481,11 @@ url = ''
 path = '/home/craigpar/Code/Piper'
 
 [repo.aliases]
-names = []
+names = ['Piper']
 paths = []
 
 [[repo]]
-id = 'PiperArms'
+id = 'piperarms'
 
 [repo.chat]
 project_name = ''
@@ -535,11 +499,11 @@ url = ''
 path = '/home/craigpar/Code/PiperArms'
 
 [repo.aliases]
-names = []
+names = ['PiperArms']
 paths = []
 
 [[repo]]
-id = 'PiperStoryArchitect'
+id = 'piperstoryarchitect'
 
 [repo.chat]
 project_name = ''
@@ -553,11 +517,11 @@ url = 'https://github.com/CraigThomasParsons/PiperStoryArchitect.git'
 path = '/home/craigpar/Code/PiperStoryArchitect'
 
 [repo.aliases]
-names = []
+names = ['PiperStoryArchitect']
 paths = []
 
 [[repo]]
-id = 'Portfolio'
+id = 'portfolio'
 
 [repo.chat]
 project_name = ''
@@ -571,11 +535,11 @@ url = ''
 path = '/home/craigpar/Code/Portfolio'
 
 [repo.aliases]
-names = []
+names = ['Portfolio']
 paths = []
 
 [[repo]]
-id = 'PortfolioWordPressInLaravel'
+id = 'portfoliowordpressinlaravel'
 
 [repo.chat]
 project_name = ''
@@ -589,11 +553,11 @@ url = ''
 path = '/home/craigpar/Code/PortfolioWordPressInLaravel'
 
 [repo.aliases]
-names = []
+names = ['PortfolioWordPressInLaravel']
 paths = []
 
 [[repo]]
-id = 'ProjectsWorkBenchToAutoPipeline'
+id = 'projectsworkbenchtoautopipeline'
 
 [repo.chat]
 project_name = ''
@@ -607,11 +571,11 @@ url = ''
 path = '/home/craigpar/Code/ProjectsWorkBenchToAutoPipeline'
 
 [repo.aliases]
-names = []
+names = ['ProjectsWorkBenchToAutoPipeline']
 paths = []
 
 [[repo]]
-id = 'RTSColonyTerrainGenerator'
+id = 'rtscolonyterraingenerator'
 
 [repo.chat]
 project_name = ''
@@ -625,11 +589,11 @@ url = 'https://github.com/CraigThomasParsons/RTSColonyTerrainGenerator.git'
 path = '/home/craigpar/Code/RTSColonyTerrainGenerator'
 
 [repo.aliases]
-names = []
+names = ['RTSColonyTerrainGenerator']
 paths = []
 
 [[repo]]
-id = 'SimCity'
+id = 'simcity'
 
 [repo.chat]
 project_name = ''
@@ -643,11 +607,11 @@ url = ''
 path = '/home/craigpar/Code/SimCity'
 
 [repo.aliases]
-names = []
+names = ['SimCity']
 paths = []
 
 [[repo]]
-id = 'StarCraft'
+id = 'starcraft'
 
 [repo.chat]
 project_name = ''
@@ -661,11 +625,11 @@ url = ''
 path = '/home/craigpar/Code/StarCraft'
 
 [repo.aliases]
-names = []
+names = ['StarCraft']
 paths = []
 
 [[repo]]
-id = 'StormLib'
+id = 'stormlib'
 
 [repo.chat]
 project_name = ''
@@ -679,11 +643,11 @@ url = ''
 path = '/home/craigpar/Code/StormLib'
 
 [repo.aliases]
-names = []
+names = ['StormLib']
 paths = []
 
 [[repo]]
-id = 'Tenacious-C'
+id = 'tenacious-c'
 
 [repo.chat]
 project_name = ''
@@ -697,11 +661,11 @@ url = ''
 path = '/home/craigpar/Code/Tenacious-C'
 
 [repo.aliases]
-names = []
+names = ['Tenacious-C']
 paths = []
 
 [[repo]]
-id = 'TheDevBacklog'
+id = 'thedevbacklog'
 
 [repo.chat]
 project_name = ''
@@ -715,11 +679,11 @@ url = 'https://github.com/CraigThomasParsons/TheDevBacklog.git'
 path = '/home/craigpar/Code/TheDevBacklog'
 
 [repo.aliases]
-names = []
+names = ['TheDevBacklog']
 paths = []
 
 [[repo]]
-id = 'ThePostalService'
+id = 'thepostalservice'
 
 [repo.chat]
 project_name = ''
@@ -733,11 +697,11 @@ url = ''
 path = '/home/craigpar/Code/ThePostalService'
 
 [repo.aliases]
-names = []
+names = ['ThePostalService']
 paths = []
 
 [[repo]]
-id = 'TheQAQueue'
+id = 'theqaqueue'
 
 [repo.chat]
 project_name = ''
@@ -751,11 +715,11 @@ url = 'https://github.com/CraigThomasParsons/TheQAQueue.git'
 path = '/home/craigpar/Code/TheQAQueue'
 
 [repo.aliases]
-names = []
+names = ['TheQAQueue']
 paths = []
 
 [[repo]]
-id = 'TheReflection'
+id = 'thereflection'
 
 [repo.chat]
 project_name = ''
@@ -769,11 +733,11 @@ url = ''
 path = '/home/craigpar/Code/TheReflection'
 
 [repo.aliases]
-names = []
+names = ['TheReflection']
 paths = []
 
 [[repo]]
-id = 'TheWritersRoom'
+id = 'thewritersroom'
 
 [repo.chat]
 project_name = ''
@@ -787,11 +751,11 @@ url = 'https://github.com/CraigThomasParsons/TheWritersRoom.git'
 path = '/home/craigpar/Code/TheWritersRoom'
 
 [repo.aliases]
-names = []
+names = ['TheWritersRoom']
 paths = []
 
 [[repo]]
-id = 'TodoApp'
+id = 'todoapp'
 
 [repo.chat]
 project_name = ''
@@ -805,11 +769,11 @@ url = ''
 path = '/home/craigpar/Code/TodoApp'
 
 [repo.aliases]
-names = []
+names = ['TodoApp']
 paths = []
 
 [[repo]]
-id = 'TodoMockApp'
+id = 'todomockapp'
 
 [repo.chat]
 project_name = ''
@@ -823,11 +787,11 @@ url = ''
 path = '/home/craigpar/Code/TodoMockApp'
 
 [repo.aliases]
-names = []
+names = ['TodoMockApp']
 paths = []
 
 [[repo]]
-id = 'TodoPrompts'
+id = 'todoprompts'
 
 [repo.chat]
 project_name = ''
@@ -841,11 +805,11 @@ url = ''
 path = '/home/craigpar/Code/TodoPrompts'
 
 [repo.aliases]
-names = []
+names = ['TodoPrompts']
 paths = []
 
 [[repo]]
-id = 'Vera'
+id = 'vera'
 
 [repo.chat]
 project_name = ''
@@ -859,11 +823,11 @@ url = ''
 path = '/home/craigpar/Code/Vera'
 
 [repo.aliases]
-names = []
+names = ['Vera']
 paths = []
 
 [[repo]]
-id = 'WARGUS'
+id = 'wargus'
 
 [repo.chat]
 project_name = ''
@@ -877,11 +841,11 @@ url = ''
 path = '/home/craigpar/Code/WARGUS'
 
 [repo.aliases]
-names = []
+names = ['WARGUS']
 paths = []
 
 [[repo]]
-id = 'WarStar'
+id = 'warstar'
 
 [repo.chat]
 project_name = ''
@@ -895,11 +859,11 @@ url = ''
 path = '/home/craigpar/Code/WarStar'
 
 [repo.aliases]
-names = []
+names = ['WarStar']
 paths = []
 
 [[repo]]
-id = 'WordpressInLaravel'
+id = 'wordpressinlaravel'
 
 [repo.chat]
 project_name = ''
@@ -913,11 +877,11 @@ url = 'https://github.com/CraigThomasParsons/WordpressInLaravel.git'
 path = '/home/craigpar/Code/WordpressInLaravel'
 
 [repo.aliases]
-names = []
+names = ['WordpressInLaravel']
 paths = []
 
 [[repo]]
-id = 'WorldBuilding'
+id = 'worldbuilding'
 
 [repo.chat]
 project_name = ''
@@ -931,7 +895,7 @@ url = ''
 path = '/home/craigpar/Code/WorldBuilding'
 
 [repo.aliases]
-names = []
+names = ['WorldBuilding']
 paths = []
 
 [[repo]]
@@ -949,7 +913,7 @@ url = ''
 path = '/home/craigpar/Code/bandcamp-downloader'
 
 [repo.aliases]
-names = []
+names = ['bandcamp-downloader']
 paths = []
 
 [[repo]]
@@ -967,7 +931,7 @@ url = ''
 path = '/home/craigpar/Code/beads'
 
 [repo.aliases]
-names = []
+names = ['beads']
 paths = []
 
 [[repo]]
@@ -985,7 +949,7 @@ url = ''
 path = '/home/craigpar/Code/bridgit-sync-engine'
 
 [repo.aliases]
-names = []
+names = ['bridgit-sync-engine']
 paths = []
 
 [[repo]]
@@ -1003,7 +967,7 @@ url = ''
 path = '/home/craigpar/Code/clawd'
 
 [repo.aliases]
-names = []
+names = ['clawd']
 paths = []
 
 [[repo]]
@@ -1021,7 +985,7 @@ url = ''
 path = '/home/craigpar/Code/configuration'
 
 [repo.aliases]
-names = []
+names = ['configuration']
 paths = []
 
 [[repo]]
@@ -1039,7 +1003,7 @@ url = ''
 path = '/home/craigpar/Code/goose'
 
 [repo.aliases]
-names = []
+names = ['goose']
 paths = []
 
 [[repo]]
@@ -1057,7 +1021,7 @@ url = ''
 path = '/home/craigpar/Code/mason-watch'
 
 [repo.aliases]
-names = []
+names = ['mason-watch']
 paths = []
 
 [[repo]]
@@ -1075,7 +1039,7 @@ url = ''
 path = '/home/craigpar/Code/openclaude'
 
 [repo.aliases]
-names = []
+names = ['openclaude']
 paths = []
 
 [[repo]]
@@ -1093,7 +1057,7 @@ url = ''
 path = '/home/craigpar/Code/pro-html5-games-17'
 
 [repo.aliases]
-names = []
+names = ['pro-html5-games-17']
 paths = []
 
 [[repo]]
@@ -1111,11 +1075,11 @@ url = 'https://github.com/CraigThomasParsons/rts-colony-survival-chat.git'
 path = '/home/craigpar/Code/rts-colony-survival-chat'
 
 [repo.aliases]
-names = []
+names = ['rts-colony-survival-chat']
 paths = []
 
 [[repo]]
-id = 'scmDraft'
+id = 'scmdraft'
 
 [repo.chat]
 project_name = ''
@@ -1129,7 +1093,7 @@ url = ''
 path = '/home/craigpar/Code/scmDraft'
 
 [repo.aliases]
-names = []
+names = ['scmDraft']
 paths = []
 
 [[repo]]
@@ -1147,7 +1111,7 @@ url = ''
 path = '/home/craigpar/Code/spotitube'
 
 [repo.aliases]
-names = []
+names = ['spotitube']
 paths = []
 
 [[repo]]
@@ -1165,7 +1129,7 @@ url = ''
 path = '/home/craigpar/Code/stargus'
 
 [repo.aliases]
-names = []
+names = ['stargus']
 paths = []
 
 [[repo]]
@@ -1183,7 +1147,7 @@ url = ''
 path = '/home/craigpar/Code/stratagus'
 
 [repo.aliases]
-names = []
+names = ['stratagus']
 paths = []
 
 [[repo]]
@@ -1201,7 +1165,7 @@ url = ''
 path = '/home/craigpar/Code/warcraft2-map-editor'
 
 [repo.aliases]
-names = []
+names = ['warcraft2-map-editor']
 paths = []
 
 [[repo]]
@@ -1219,7 +1183,7 @@ url = ''
 path = '/home/craigpar/Code/yt-dlp'
 
 [repo.aliases]
-names = []
+names = ['yt-dlp']
 paths = []
 
 [[repo]]
