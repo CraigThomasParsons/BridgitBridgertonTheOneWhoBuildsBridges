@@ -44,22 +44,23 @@ func NewEngine(cfg config.Config, reg *registry.Registry) *Engine {
 
 // Run executes the full synchronization workflow across all sources.
 //
-// This function performs five phases:
+// This function performs six phases:
 //  1. Fetch: Pull data from ChatGPT projects, GitHub API, and local filesystem
 //  2. Adopt: Discover unregistered local repos and optionally add to registry
 //  3. Resolve: Run identity matching (git remote → alias → normalized name)
 //  4. Enrich: Cross-link registry entries with GitHub and ChatProjects data
-//  5. Report: Accumulate findings for operator review
+//  5. Reconcile: Detect drift between registry, GitHub, and local filesystem
+//  6. Report: Accumulate findings for operator review
 //
 // Errors from individual sources are logged as warnings in the report,
 // allowing other sources to proceed even if one fails.
-func (e *Engine) Run() (*report.Report, error) {
+func (engine *Engine) Run() (*report.Report, error) {
 	// Initialize a fresh report to accumulate findings.
-	r := report.New()
+	syncReport := report.New()
 
 	// Add the report header for visual clarity in stdout.
-	r.Add("== Bridgit Sync Report ==")
-	r.Add("")
+	syncReport.Add("== Bridgit Sync Report ==")
+	syncReport.Add("")
 
 	// --- Phase 1: Fetch from all three sources ---
 	// Each source is fetched independently; failures are reported but non-fatal.
@@ -67,28 +68,28 @@ func (e *Engine) Run() (*report.Report, error) {
 	// Fetch ChatGPT projects from the bridge outbox.
 	chatProjects, chatError := FetchChatProjects()
 	if chatError != nil {
-		r.Add(fmt.Sprintf("WARNING: Chat Projects fetch failed: %v", chatError))
+		syncReport.Add(fmt.Sprintf("WARNING: Chat Projects fetch failed: %v", chatError))
 	}
 
 	// Fetch GitHub repos via the REST API.
-	githubRepos, githubError := FetchGitHubRepos(e.cfg.GitHubOwner)
+	githubRepos, githubError := FetchGitHubRepos(engine.cfg.GitHubOwner)
 	if githubError != nil {
-		r.Add(fmt.Sprintf("WARNING: GitHub fetch failed: %v", githubError))
+		syncReport.Add(fmt.Sprintf("WARNING: GitHub fetch failed: %v", githubError))
 	}
 
 	// Scan local directories under CodeRoot.
-	localRepos, localError := ScanLocal(e.cfg.CodeRoot)
+	localRepos, localError := ScanLocal(engine.cfg.CodeRoot)
 	if localError != nil {
 		// Local scan failure is more serious since it's purely filesystem.
-		return nil, fmt.Errorf("failed to scan local repos at %s: %w", e.cfg.CodeRoot, localError)
+		return nil, fmt.Errorf("failed to scan local repos at %s: %w", engine.cfg.CodeRoot, localError)
 	}
 
 	// Report the count of repositories discovered in each source.
 	// Provides quick feedback on whether sources are responding.
-	r.Add(fmt.Sprintf("Chat Projects: %d", len(chatProjects)))
-	r.Add(fmt.Sprintf("GitHub Repos:  %d", len(githubRepos)))
-	r.Add(fmt.Sprintf("Local Repos:   %d", len(localRepos)))
-	r.Add("")
+	syncReport.Add(fmt.Sprintf("Chat Projects: %d", len(chatProjects)))
+	syncReport.Add(fmt.Sprintf("GitHub Repos:  %d", len(githubRepos)))
+	syncReport.Add(fmt.Sprintf("Local Repos:   %d", len(localRepos)))
+	syncReport.Add("")
 
 	// --- Phase 2: Discover and adopt unregistered local repos ---
 	// Scans local directories, filters noise (dotfiles), builds candidates,
@@ -103,7 +104,7 @@ func (e *Engine) Run() (*report.Report, error) {
 		}
 
 		// Check if this local path already has a registry entry.
-		if e.findRepoByLocalPath(local.Path) != nil {
+		if engine.findRepoByLocalPath(local.Path) != nil {
 			continue
 		}
 
@@ -112,38 +113,38 @@ func (e *Engine) Run() (*report.Report, error) {
 		candidateCount++
 
 		// Always report the discovery so operators can review.
-		r.Add(fmt.Sprintf("UNREGISTERED LOCAL: %s", local.Path))
-		r.Add(fmt.Sprintf("→ suggested id: %s", candidate.ID))
+		syncReport.Add(fmt.Sprintf("UNREGISTERED LOCAL: %s", local.Path))
+		syncReport.Add(fmt.Sprintf("→ suggested id: %s", candidate.ID))
 
 		// Only mutate the registry when AutoAdopt is explicitly enabled.
 		// This keeps the default run safe and side-effect free.
-		if e.cfg.AutoAdopt {
+		if engine.cfg.AutoAdopt {
 			// Guard against duplicate IDs from repeated runs.
-			if existsInRegistry(e.reg, candidate.ID) {
-				r.Add("⚠ skipped (ID already exists in registry)")
+			if existsInRegistry(engine.reg, candidate.ID) {
+				syncReport.Add("⚠ skipped (ID already exists in registry)")
 				continue
 			}
 
-			AddToRegistry(e.reg, candidate)
+			AddToRegistry(engine.reg, candidate)
 			adoptedCount++
-			r.Add("✓ adopted into registry")
+			syncReport.Add("✓ adopted into registry")
 		}
 	}
 
 	// Summarize adoption results for quick operator feedback.
-	if candidateCount > 0 && !e.cfg.AutoAdopt {
-		r.Add(fmt.Sprintf("\nFound %d unregistered repo(s). Set AutoAdopt=true to adopt.", candidateCount))
+	if candidateCount > 0 && !engine.cfg.AutoAdopt {
+		syncReport.Add(fmt.Sprintf("\nFound %d unregistered repo(s). Set AutoAdopt=true to adopt.", candidateCount))
 	}
 	if adoptedCount > 0 {
-		r.Add(fmt.Sprintf("\nAdopted %d new repo(s) into registry.", adoptedCount))
+		syncReport.Add(fmt.Sprintf("\nAdopted %d new repo(s) into registry.", adoptedCount))
 	}
-	r.Add("")
+	syncReport.Add("")
 
 	// --- Phase 3: Identity Resolution ---
 	// Run the matching pipeline across all local repos to link them with
 	// GitHub repos and registry entries. This uses git remotes as the
 	// highest-confidence signal, falling back to aliases and normalized names.
-	matchResults := MatchAll(localRepos, e.reg, githubRepos)
+	matchResults := MatchAll(localRepos, engine.reg, githubRepos)
 
 	// Counters for the match summary line.
 	matchCountByStrategy := map[string]int{
@@ -158,32 +159,32 @@ func (e *Engine) Run() (*report.Report, error) {
 
 		switch match.Strategy {
 		case "git":
-			r.Add(fmt.Sprintf("MATCHED (git): %s → %s", match.LocalName, match.RepoID))
+			syncReport.Add(fmt.Sprintf("MATCHED (git): %s → %s", match.LocalName, match.RepoID))
 
 			// Use the git remote to enrich the registry entry with GitHub data.
 			// This is the most reliable link — the repo itself declares its origin.
-			e.enrichFromGitMatch(match, githubRepos)
+			engine.enrichFromGitMatch(match, githubRepos)
 
 		case "alias":
-			r.Add(fmt.Sprintf("MATCHED (alias): %s → %s", match.LocalName, match.RepoID))
+			syncReport.Add(fmt.Sprintf("MATCHED (alias): %s → %s", match.LocalName, match.RepoID))
 
 		case "normalized":
-			r.Add(fmt.Sprintf("MATCHED (normalized): %s → %s", match.LocalName, match.RepoID))
+			syncReport.Add(fmt.Sprintf("MATCHED (normalized): %s → %s", match.LocalName, match.RepoID))
 
 		case "none":
-			r.Add(fmt.Sprintf("UNRESOLVED: %s", match.LocalName))
+			syncReport.Add(fmt.Sprintf("UNRESOLVED: %s", match.LocalName))
 		}
 	}
 
 	// Print a one-line summary of match distribution.
-	r.Add(fmt.Sprintf(
+	syncReport.Add(fmt.Sprintf(
 		"\nIdentity resolution: %d git, %d alias, %d normalized, %d unresolved",
 		matchCountByStrategy["git"],
 		matchCountByStrategy["alias"],
 		matchCountByStrategy["normalized"],
 		matchCountByStrategy["none"],
 	))
-	r.Add("")
+	syncReport.Add("")
 
 	// --- Phase 4: Enrich registry with remaining GitHub data ---
 	// Cross-link registry entries with GitHub repos that weren't already
@@ -192,15 +193,15 @@ func (e *Engine) Run() (*report.Report, error) {
 	for _, ghRepo := range githubRepos {
 		// Find a matching registry entry by name comparison.
 		// Try exact match on ID, then fuzzy match on aliases.
-		matchedRepo := e.findRepoByNameMatch(ghRepo.Name)
+		matchedRepo := engine.findRepoByNameMatch(ghRepo.Name)
 		if matchedRepo == nil {
 			// No local match — register as a GitHub-only repo.
 			newRepo := registry.Repo{}
 			newRepo.ID = ghRepo.Name
 			newRepo.GitHub.Name = ghRepo.Name
 			newRepo.GitHub.URL = ghRepo.URL
-			e.reg.Repos = append(e.reg.Repos, newRepo)
-			r.Add(fmt.Sprintf("GITHUB-ONLY: %s (no local clone)", ghRepo.Name))
+			engine.reg.Repos = append(engine.reg.Repos, newRepo)
+			syncReport.Add(fmt.Sprintf("GITHUB-ONLY: %s (no local clone)", ghRepo.Name))
 			continue
 		}
 
@@ -214,7 +215,7 @@ func (e *Engine) Run() (*report.Report, error) {
 	}
 
 	if enrichedGitHubCount > 0 {
-		r.Add(fmt.Sprintf("Enriched %d repo(s) with GitHub metadata.", enrichedGitHubCount))
+		syncReport.Add(fmt.Sprintf("Enriched %d repo(s) with GitHub metadata.", enrichedGitHubCount))
 	}
 
 	// --- Phase 4b: Enrich registry with ChatProjects data ---
@@ -222,15 +223,15 @@ func (e *Engine) Run() (*report.Report, error) {
 	enrichedChatCount := 0
 	for _, chatProject := range chatProjects {
 		// Find a matching registry entry by project name.
-		matchedRepo := e.findRepoByNameMatch(chatProject.Name)
+		matchedRepo := engine.findRepoByNameMatch(chatProject.Name)
 		if matchedRepo == nil {
 			// No local match — register as a Chat-only entry.
 			newRepo := registry.Repo{}
 			newRepo.ID = chatProject.Name
 			newRepo.Chat.ProjectName = chatProject.Name
 			newRepo.Chat.ProjectID = chatProject.ID
-			e.reg.Repos = append(e.reg.Repos, newRepo)
-			r.Add(fmt.Sprintf("CHAT-ONLY: %s (no local clone)", chatProject.Name))
+			engine.reg.Repos = append(engine.reg.Repos, newRepo)
+			syncReport.Add(fmt.Sprintf("CHAT-ONLY: %s (no local clone)", chatProject.Name))
 			continue
 		}
 
@@ -243,22 +244,51 @@ func (e *Engine) Run() (*report.Report, error) {
 	}
 
 	if enrichedChatCount > 0 {
-		r.Add(fmt.Sprintf("Enriched %d repo(s) with ChatProjects metadata.", enrichedChatCount))
+		syncReport.Add(fmt.Sprintf("Enriched %d repo(s) with ChatProjects metadata.", enrichedChatCount))
 	}
 
-	// --- Summary ---
-	r.Add("")
-	r.Add(fmt.Sprintf("Registry total: %d repo(s)", len(e.reg.Repos)))
+	// --- Phase 5: Reconciliation ---
+	// Compare registry state against GitHub and local sources to detect
+	// misalignment. This is read-only — no mutations, only diagnostics.
+	reconcileResults := Reconcile(engine.reg, githubRepos, localRepos)
 
-	return r, nil
+	syncReport.Add("")
+	syncReport.Add("== Reconciliation Report ==")
+	syncReport.Add("")
+
+	// Separate OK results from issues so operators see problems first.
+	okCount := 0
+	for _, reconcileResult := range reconcileResults {
+		switch reconcileResult.Status {
+		case "OK":
+			// Healthy repos are counted but not printed individually.
+			okCount++
+		default:
+			// Print each issue with its detail lines for operator triage.
+			syncReport.Add(fmt.Sprintf("%s: %s", reconcileResult.Status, reconcileResult.RepoID))
+			for _, detailLine := range reconcileResult.Details {
+				syncReport.Add(fmt.Sprintf("  → %s", detailLine))
+			}
+		}
+	}
+
+	// Summary line gives operators a quick pass/fail signal.
+	issueCount := len(reconcileResults) - okCount
+	syncReport.Add(fmt.Sprintf("\n%d OK, %d issues detected", okCount, issueCount))
+
+	// --- Summary ---
+	syncReport.Add("")
+	syncReport.Add(fmt.Sprintf("Registry total: %d repo(s)", len(engine.reg.Repos)))
+
+	return syncReport, nil
 }
 
 // findRepoByLocalPath returns a pointer to the registry Repo with the given local
 // path, or nil if no match exists. This enables callers to check and mutate the entry.
-func (e *Engine) findRepoByLocalPath(localPath string) *registry.Repo {
-	for i := range e.reg.Repos {
-		if e.reg.Repos[i].Local.Path == localPath {
-			return &e.reg.Repos[i]
+func (engine *Engine) findRepoByLocalPath(localPath string) *registry.Repo {
+	for i := range engine.reg.Repos {
+		if engine.reg.Repos[i].Local.Path == localPath {
+			return &engine.reg.Repos[i]
 		}
 	}
 	return nil
@@ -272,11 +302,11 @@ func (e *Engine) findRepoByLocalPath(localPath string) *registry.Repo {
 //  4. Match on any alias name
 //
 // Returns a pointer to the first matching Repo, or nil if no match is found.
-func (e *Engine) findRepoByNameMatch(sourceName string) *registry.Repo {
+func (engine *Engine) findRepoByNameMatch(sourceName string) *registry.Repo {
 	lowerSourceName := strings.ToLower(sourceName)
 
-	for i := range e.reg.Repos {
-		repo := &e.reg.Repos[i]
+	for i := range engine.reg.Repos {
+		repo := &engine.reg.Repos[i]
 
 		// Strategy 1: Exact match on ID.
 		if repo.ID == sourceName {
@@ -316,7 +346,7 @@ func (e *Engine) findRepoByNameMatch(sourceName string) *registry.Repo {
 // If the matched repo ID corresponds to a registry entry, its GitHub fields
 // are filled in from the API data. If no registry entry exists yet, a new
 // one is created so the GitHub link isn't lost.
-func (e *Engine) enrichFromGitMatch(match MatchResult, githubRepos []GitHubRepo) {
+func (engine *Engine) enrichFromGitMatch(match MatchResult, githubRepos []GitHubRepo) {
 	// Find the GitHub API entry that matches the git remote name.
 	var matchedGitHub *GitHubRepo
 	for i := range githubRepos {
@@ -334,9 +364,9 @@ func (e *Engine) enrichFromGitMatch(match MatchResult, githubRepos []GitHubRepo)
 
 	// Find the registry entry to enrich. Try by local path first (most precise),
 	// then fall back to the matched repo ID.
-	registryEntry := e.findRepoByLocalPath(match.LocalPath)
+	registryEntry := engine.findRepoByLocalPath(match.LocalPath)
 	if registryEntry == nil {
-		registryEntry = e.findRepoByNameMatch(match.RepoID)
+		registryEntry = engine.findRepoByNameMatch(match.RepoID)
 	}
 
 	// If no registry entry exists, nothing to enrich.

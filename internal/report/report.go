@@ -30,17 +30,17 @@ func New() *Report {
 // Lines are stored in the order they are added, preserving
 // the logical flow of sync operations for the final render.
 // Newlines within individual lines are not supported.
-func (r *Report) Add(line string) {
+func (report *Report) Add(line string) {
 	// Append directly to the slice.
 	// No deduplication or validation is performed.
-	r.lines = append(r.lines, line)
+	report.lines = append(report.lines, line)
 }
 
 // Render joins all accumulated lines into a single newline-delimited string.
 //
 // This produces the final output suitable for fmt.Println or log writing.
 // The result is deterministic and suitable for diffing across runs.
-func (r *Report) Render() string {
+func (report *Report) Render() string {
 	// Join with Unix newlines for cross-platform consistency.
-	return strings.Join(r.lines, "\n")
+	return strings.Join(report.lines, "\n")
 }

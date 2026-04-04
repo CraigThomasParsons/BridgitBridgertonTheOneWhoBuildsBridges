@@ -59,9 +59,9 @@ type MatchResult struct {
 // referencing when a git remote points at a repo not yet in the registry.
 func MatchLocal(local LocalRepo, reg *registry.Registry, githubRepos []GitHubRepo) MatchResult {
 	result := MatchResult{
-		LocalPath: local.Path,
-		LocalName: local.Name,
-		Strategy:  "none",
+		LocalPath:  local.Path,
+		LocalName:  local.Name,
+		Strategy:   "none",
 		Confidence: "none",
 	}
 

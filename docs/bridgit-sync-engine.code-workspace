@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Krax"
+		},
+		{
+			"path": "../../ChatProjects"
+		}
+	],
+	"settings": {
+		"dafny-autopilot.enableDevelopmentFeatures": false
+	}
+}
