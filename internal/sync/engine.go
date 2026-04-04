@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"bridgit/internal/config"
+	"bridgit/internal/contracts"
 	"bridgit/internal/registry"
 	"bridgit/internal/report"
 )
@@ -28,30 +29,40 @@ type Engine struct {
 	// reg is the shared registry of known repositories.
 	// The engine reads from and writes to this during reconciliation.
 	reg *registry.Registry
+
+	// emitter publishes lifecycle events for subscribers to react to.
+	// Phases emit events at boundaries and on significant state changes.
+	emitter contracts.Emitter
 }
 
-// NewEngine creates a new sync Engine with the given configuration and registry.
+// NewEngine creates a new sync Engine with the given configuration, registry,
+// and event emitter.
 //
 // The config and registry are captured by pointer to allow the engine to
-// inspect and mutate state without copying large structures.
-func NewEngine(cfg config.Config, reg *registry.Registry) *Engine {
+// inspect and mutate state without copying large structures. The emitter
+// enables phases to publish lifecycle events without coupling to consumers.
+func NewEngine(cfg config.Config, reg *registry.Registry, emitter contracts.Emitter) *Engine {
 	// Store pointers to avoid copying and enable shared state access.
 	return &Engine{
-		cfg: &cfg,
-		reg: reg,
+		cfg:     &cfg,
+		reg:     reg,
+		emitter: emitter,
 	}
 }
 
 // Run executes the full synchronization workflow across all sources.
 //
-// This function performs seven phases:
+// This function performs up to eight phases:
 //  1. Fetch: Pull data from ChatGPT projects, GitHub API, and local filesystem
 //  2. Adopt: Discover unregistered local repos and optionally add to registry
 //  3. Resolve: Run identity matching (git remote → alias → normalized name)
 //  4. Enrich: Cross-link registry entries with GitHub and ChatProjects data
 //  5. Reconcile: Detect drift between registry, GitHub, and local filesystem
-//  6. Project: Copy archive artifacts into target repo docs/ folders
-//  7. Report: Accumulate findings for operator review
+//  6. Intake: Process inbox packages (letter.toml → manifest.toml → archive)
+//  7. Project: Copy archive artifacts into target repo docs/ folders
+//  8. Report: Accumulate findings for operator review
+//
+// Phases 6 and 7 are opt-in via EnableIntake and EnableProjection config flags.
 //
 // Errors from individual sources are logged as warnings in the report,
 // allowing other sources to proceed even if one fails.
@@ -277,7 +288,58 @@ func (engine *Engine) Run() (*report.Report, error) {
 	issueCount := len(reconcileResults) - okCount
 	syncReport.Add(fmt.Sprintf("\n%d OK, %d issues detected", okCount, issueCount))
 
-	// --- Phase 6: Projection ---
+	// --- Phase 6: Intake ---
+	// Process packages in the runtime inbox: read letter.toml, resolve
+	// project_id to repo_id via registry, generate manifest.toml, and
+	// move the package to the archive where projection can find it.
+	if engine.cfg.EnableIntake {
+		engine.emitter.Emit(contracts.Event{
+			Type:    contracts.PhaseStarted,
+			Phase:   "intake",
+			Message: "starting inbox package processing",
+		})
+
+		intakeResults := ProcessInbox(
+			engine.cfg.InboxPath,
+			engine.cfg.ArchivePath,
+			engine.cfg.FailedPath,
+			engine.reg,
+			engine.emitter,
+		)
+
+		// Report intake results for operator visibility.
+		if len(intakeResults) > 0 {
+			syncReport.Add("")
+			syncReport.Add("== Intake Report ==")
+			syncReport.Add("")
+
+			processedCount := 0
+			for _, intakeResult := range intakeResults {
+				switch intakeResult.Action {
+				case "PROCESSED":
+					processedCount++
+					syncReport.Add(fmt.Sprintf("INTAKE: %s → repo %s", intakeResult.PackageName, intakeResult.RepoID))
+
+				case "ALREADY_EXISTS":
+					syncReport.Add(fmt.Sprintf("SKIPPED (exists): %s", intakeResult.PackageName))
+
+				default:
+					// FAILED_READ, FAILED_LOOKUP, FAILED_MANIFEST, FAILED_MOVE
+					syncReport.Add(fmt.Sprintf("%s: %s (%s)", intakeResult.Action, intakeResult.PackageName, intakeResult.Reason))
+				}
+			}
+
+			syncReport.Add(fmt.Sprintf("\n%d package(s) processed into archive.", processedCount))
+		}
+
+		engine.emitter.Emit(contracts.Event{
+			Type:    contracts.PhaseCompleted,
+			Phase:   "intake",
+			Message: "inbox package processing complete",
+		})
+	}
+
+	// --- Phase 7: Projection ---
 	// Copy archive artifacts into target repo docs/ folders.
 	// Only runs when EnableProjection is explicitly set to true.
 	if engine.cfg.EnableProjection {

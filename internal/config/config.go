@@ -39,6 +39,20 @@ type Config struct {
 	// EnableProjection controls whether Phase 6 artifact projection runs.
 	// Default false — opt-in like AutoAdopt to prevent unexpected writes.
 	EnableProjection bool
+
+	// InboxPath is the directory where the router deposits packages for processing.
+	// The intake phase reads from here and generates manifests for projection.
+	// Defaults to runtime/inbox/ relative to the project root.
+	InboxPath string
+
+	// FailedPath is the directory where packages that fail intake processing are moved.
+	// Operators inspect this directory to diagnose pipeline failures.
+	// Defaults to runtime/failed/ relative to the project root.
+	FailedPath string
+
+	// EnableIntake controls whether the intake phase processes inbox packages.
+	// Default false — opt-in to prevent unexpected filesystem mutations.
+	EnableIntake bool
 }
 
 // Load returns a Config instance with hardcoded development values.
@@ -68,5 +82,8 @@ func Load() Config {
 		AutoAdopt:        false,
 		ArchivePath:      "./runtime/archive",
 		EnableProjection: false,
+		InboxPath:        "./runtime/inbox",
+		FailedPath:       "./runtime/failed",
+		EnableIntake:     false,
 	}
 }

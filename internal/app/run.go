@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"bridgit/internal/config"
+	"bridgit/internal/contracts"
 	"bridgit/internal/registry"
 	"bridgit/internal/sync"
 )
@@ -33,9 +34,17 @@ func Run() error {
 		return err
 	}
 
-	// Initialize the sync engine with configuration and registry.
+	// Create the event emitter and attach subscribers for reporting and logging.
+	// The emitter is passed to the engine so all phases can publish lifecycle events.
+	eventEmitter := contracts.NewEmitter()
+
+	// Attach the log subscriber to persist all events to a file for debugging.
+	// The log file is created lazily on the first event to avoid empty files.
+	eventEmitter.Subscribe(contracts.NewLogSubscriber("./runtime/events.log"))
+
+	// Initialize the sync engine with configuration, registry, and event emitter.
 	// The engine coordinates fetching from multiple sources (Chat, GitHub, local).
-	engine := sync.NewEngine(cfg, reg)
+	engine := sync.NewEngine(cfg, reg, eventEmitter)
 
 	// Execute the synchronization scan across all configured sources.
 	// This populates the report with discovered repos and orphaned paths.

@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../ChatProjects"
+		},
+		{
+			"path": "../../ThePostalService"
 		}
 	],
 	"settings": {

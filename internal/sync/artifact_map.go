@@ -80,6 +80,30 @@ func DefaultArtifactRules() []ArtifactRule {
 			DestFilename:  "roadmap.md",
 			Overwrite:     false,
 		},
+		{
+			// Epic breakdowns organize features into implementation groups.
+			// Produced by the ChatProjectsToKraxBridge LLM extraction pipeline.
+			SourcePattern: "EPICS.md",
+			DestSubdir:    "docs/architecture",
+			DestFilename:  "epics.md",
+			Overwrite:     false,
+		},
+		{
+			// User stories derived from personas and features by the Krax bridge.
+			// These translate high-level goals into actionable development tasks.
+			SourcePattern: "STORIES.md",
+			DestSubdir:    "docs/architecture",
+			DestFilename:  "stories.md",
+			Overwrite:     false,
+		},
+		{
+			// Technical and business constraints identified during the inception process.
+			// These guard rails prevent scope drift and maintain architectural integrity.
+			SourcePattern: "CONSTRAINTS.md",
+			DestSubdir:    "docs/architecture",
+			DestFilename:  "constraints.md",
+			Overwrite:     false,
+		},
 	}
 }
 
