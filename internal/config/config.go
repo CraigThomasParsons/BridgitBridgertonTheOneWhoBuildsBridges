@@ -5,7 +5,6 @@
 // file loader (e.g., Viper or envconfig).
 package config
 
-// Importing os for future environment variable support, currently unused.
 import "os"
 
 // Config holds all runtime configuration required for Bridgit execution.
@@ -53,6 +52,29 @@ type Config struct {
 	// EnableIntake controls whether the intake phase processes inbox packages.
 	// Default false — opt-in to prevent unexpected filesystem mutations.
 	EnableIntake bool
+
+	// LLMAPIKey authenticates requests to the LLM API (OpenAI-compatible).
+	// Read from LLM_API_KEY environment variable, falls back to GROQ_API_KEY.
+	// If empty, LLM-based fuzzy matching is silently skipped.
+	LLMAPIKey string
+
+	// LLMBaseURL is the base URL for the OpenAI-compatible chat completions API.
+	// Defaults to Groq's endpoint. Works with any OpenAI-compatible provider.
+	LLMBaseURL string
+
+	// LLMModel specifies which model to use for fuzzy matching.
+	// Defaults to Groq's llama-3.3-70b-versatile — fast and capable.
+	LLMModel string
+}
+
+// getEnvOrDefault returns the value of an environment variable, or a fallback
+// if the variable is empty or unset. Used for optional config with sane defaults.
+func getEnvOrDefault(envKey string, fallback string) string {
+	envValue := os.Getenv(envKey)
+	if envValue == "" {
+		return fallback
+	}
+	return envValue
 }
 
 // Load returns a Config instance with hardcoded development values.
@@ -85,5 +107,8 @@ func Load() Config {
 		InboxPath:        "./runtime/inbox",
 		FailedPath:       "./runtime/failed",
 		EnableIntake:     false,
+		LLMAPIKey:  getEnvOrDefault("LLM_API_KEY", os.Getenv("GROQ_API_KEY")),
+		LLMBaseURL: getEnvOrDefault("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
+		LLMModel:   getEnvOrDefault("LLM_MODEL", "llama-3.3-70b-versatile"),
 	}
 }

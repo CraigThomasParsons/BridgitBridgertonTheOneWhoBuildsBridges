@@ -232,18 +232,16 @@ func (engine *Engine) Run() (*report.Report, error) {
 
 	// --- Phase 4b: Enrich registry with ChatProjects data ---
 	// Cross-link registry entries with ChatGPT project data.
+	// Track unmatched projects for LLM fuzzy matching fallback.
 	enrichedChatCount := 0
+	unmatchedChatProjects := []ChatProject{}
+
 	for _, chatProject := range chatProjects {
 		// Find a matching registry entry by project name.
 		matchedRepo := engine.findRepoByNameMatch(chatProject.Name)
 		if matchedRepo == nil {
-			// No local match — register as a Chat-only entry.
-			newRepo := registry.Repo{}
-			newRepo.ID = chatProject.Name
-			newRepo.Chat.ProjectName = chatProject.Name
-			newRepo.Chat.ProjectID = chatProject.ID
-			engine.reg.Repos = append(engine.reg.Repos, newRepo)
-			syncReport.Add(fmt.Sprintf("CHAT-ONLY: %s (no local clone)", chatProject.Name))
+			// Strict matching failed — save for LLM fuzzy matching below.
+			unmatchedChatProjects = append(unmatchedChatProjects, chatProject)
 			continue
 		}
 
@@ -257,6 +255,90 @@ func (engine *Engine) Run() (*report.Report, error) {
 
 	if enrichedChatCount > 0 {
 		syncReport.Add(fmt.Sprintf("Enriched %d repo(s) with ChatProjects metadata.", enrichedChatCount))
+	}
+
+	// --- Phase 4c: LLM fuzzy matching for unresolved ChatProjects ---
+	// When strict matching leaves ChatProjects unlinked, ask the LLM to
+	// resolve pairings based on name similarity. Only runs when an API
+	// key is configured — gracefully degrades to strict-only without one.
+	if len(unmatchedChatProjects) > 0 && engine.cfg.LLMAPIKey != "" {
+		syncReport.Add(fmt.Sprintf("\nAttempting LLM fuzzy match for %d unmatched ChatProject(s)...", len(unmatchedChatProjects)))
+
+		// Collect all registry IDs as the candidate pool for the LLM.
+		registryIDs := collectRegistryIDs(engine.reg)
+
+		fuzzyResults, fuzzyError := ResolveFuzzyMatches(
+			unmatchedChatProjects,
+			registryIDs,
+			engine.cfg.LLMAPIKey,
+			engine.cfg.LLMBaseURL,
+			engine.cfg.LLMModel,
+		)
+
+		if fuzzyError != nil {
+			// LLM matching is best-effort — log the error but don't fail the run.
+			syncReport.Add(fmt.Sprintf("WARNING: LLM fuzzy matching failed: %v", fuzzyError))
+		} else {
+			// Apply successful fuzzy matches to the registry.
+			fuzzyMatchCount := 0
+			for _, fuzzyMatch := range fuzzyResults {
+				// Skip empty matches — the LLM couldn't find a pairing.
+				if fuzzyMatch.RepoID == "" {
+					continue
+				}
+
+				// Find the registry entry the LLM matched to.
+				matchedRepo := engine.findRepoByNameMatch(fuzzyMatch.RepoID)
+				if matchedRepo == nil {
+					syncReport.Add(fmt.Sprintf("FUZZY MISS: %s → %s (repo not in registry)", fuzzyMatch.ChatProjectName, fuzzyMatch.RepoID))
+					continue
+				}
+
+				// Find the original ChatProject to get its ID.
+				var originalProject *ChatProject
+				for i := range unmatchedChatProjects {
+					if unmatchedChatProjects[i].Name == fuzzyMatch.ChatProjectName {
+						originalProject = &unmatchedChatProjects[i]
+						break
+					}
+				}
+
+				// Enrich the registry entry with the ChatProjects metadata.
+				if originalProject != nil && matchedRepo.Chat.ProjectID == "" {
+					matchedRepo.Chat.ProjectName = originalProject.Name
+					matchedRepo.Chat.ProjectID = originalProject.ID
+					fuzzyMatchCount++
+					syncReport.Add(fmt.Sprintf("FUZZY MATCHED: %s → %s (%s)", fuzzyMatch.ChatProjectName, fuzzyMatch.RepoID, fuzzyMatch.Confidence))
+				}
+			}
+
+			if fuzzyMatchCount > 0 {
+				syncReport.Add(fmt.Sprintf("LLM fuzzy matching resolved %d additional pairing(s).", fuzzyMatchCount))
+			}
+		}
+	}
+
+	// Register any remaining unmatched ChatProjects as Chat-only entries.
+	// These had no strict or fuzzy match to an existing registry entry.
+	for _, unmatchedProject := range unmatchedChatProjects {
+		// Check if the fuzzy matcher already linked this project above.
+		alreadyLinked := false
+		for _, registryRepo := range engine.reg.Repos {
+			if registryRepo.Chat.ProjectID == unmatchedProject.ID {
+				alreadyLinked = true
+				break
+			}
+		}
+
+		// Only create a new Chat-only entry if it wasn't resolved by the LLM.
+		if !alreadyLinked {
+			newRepo := registry.Repo{}
+			newRepo.ID = unmatchedProject.Name
+			newRepo.Chat.ProjectName = unmatchedProject.Name
+			newRepo.Chat.ProjectID = unmatchedProject.ID
+			engine.reg.Repos = append(engine.reg.Repos, newRepo)
+			syncReport.Add(fmt.Sprintf("CHAT-ONLY: %s (no local clone)", unmatchedProject.Name))
+		}
 	}
 
 	// --- Phase 5: Reconciliation ---
@@ -484,4 +566,14 @@ func (engine *Engine) enrichFromGitMatch(match MatchResult, githubRepos []GitHub
 		registryEntry.GitHub.Name = matchedGitHub.Name
 		registryEntry.GitHub.URL = matchedGitHub.URL
 	}
+}
+
+// collectRegistryIDs extracts all repo IDs from the registry into a flat
+// string slice. Used to build the candidate pool for LLM fuzzy matching.
+func collectRegistryIDs(reg *registry.Registry) []string {
+	registryIDs := make([]string, 0, len(reg.Repos))
+	for _, registryRepo := range reg.Repos {
+		registryIDs = append(registryIDs, registryRepo.ID)
+	}
+	return registryIDs
 }
