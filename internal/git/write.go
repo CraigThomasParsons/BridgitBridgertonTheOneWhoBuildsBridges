@@ -100,17 +100,21 @@ func SetDefaultBranch(repoPath string) error {
 	return nil
 }
 
-// CreateInitialCommit stages all files in the repo and creates an "Initial
-// commit". If the repo is empty (no files to stage), a .gitkeep file is
-// created to ensure there is something to commit.
+// CreateInitialCommit generates a default .gitignore (if none exists), stages
+// all files, and creates an "Initial commit". If the repo is empty, a .gitkeep
+// file is created to ensure there is something to commit.
 func CreateInitialCommit(repoPath string) error {
+	// Generate a default .gitignore before staging to prevent large files,
+	// logs, and build artifacts from being committed to GitHub.
+	ensureGitignore(repoPath)
+
 	// Check if the directory has any files to commit.
 	dirEntries, err := os.ReadDir(repoPath)
 	if err != nil {
 		return fmt.Errorf("cannot read directory for initial commit: %w", err)
 	}
 
-	// Count non-.git entries to determine if the directory is empty.
+	// Count non-.git and non-.gitignore entries to determine if empty.
 	fileCount := 0
 	for _, dirEntry := range dirEntries {
 		if dirEntry.Name() != ".git" {
@@ -118,7 +122,7 @@ func CreateInitialCommit(repoPath string) error {
 		}
 	}
 
-	// Create a .gitkeep placeholder if the directory has no content.
+	// Create a .gitkeep placeholder if the directory has no real content.
 	if fileCount == 0 {
 		gitkeepPath := repoPath + "/.gitkeep"
 		if err := os.WriteFile(gitkeepPath, []byte(""), 0644); err != nil {
@@ -142,6 +146,69 @@ func CreateInitialCommit(repoPath string) error {
 			repoPath, err, strings.TrimSpace(string(combinedOutput)))
 	}
 	return nil
+}
+
+// defaultGitignore contains patterns for files that should never be committed
+// to GitHub. Covers logs, build artifacts, binaries, environment files, and
+// common runtime directories that tend to contain large files.
+const defaultGitignore = `# Logs
+logs/
+*.log
+
+# Build artifacts and binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+bin/
+dist/
+build/
+
+# Runtime and temp files
+*.pid
+*.swp
+*.swo
+tmp/
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Dependencies (language-specific)
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+`
+
+// ensureGitignore creates a default .gitignore in the repo directory if one
+// does not already exist. If a .gitignore is present, it is left untouched
+// to respect any existing project-specific ignore rules.
+func ensureGitignore(repoPath string) {
+	gitignorePath := repoPath + "/.gitignore"
+
+	// Do not overwrite an existing .gitignore — the project may already
+	// have custom rules that we should not disturb.
+	if _, err := os.Stat(gitignorePath); err == nil {
+		return
+	}
+
+	// Write the default .gitignore. Errors are silently ignored because
+	// a missing .gitignore is non-fatal — the commit will still succeed,
+	// it just might include files that should have been excluded.
+	_ = os.WriteFile(gitignorePath, []byte(defaultGitignore), 0644)
 }
 
 // PushToRemote runs `git push -u <remoteName> <branch>` to push the local
