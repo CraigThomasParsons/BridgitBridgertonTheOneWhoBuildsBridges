@@ -59,6 +59,11 @@ const (
 	// a state that requires human judgment (e.g., local folder has code that
 	// doesn't match the existing GitHub repo).
 	ProvisioningReviewNeeded EventType = "provisioning.review_needed"
+
+	// SecretScanBlocked fires when the guardrail secret scanner detects files
+	// containing API keys, tokens, or credentials during provisioning. The
+	// flagged files are excluded from the commit automatically.
+	SecretScanBlocked EventType = "guardrail.secret_detected"
 )
 
 // Event captures a single lifecycle occurrence during sync execution.

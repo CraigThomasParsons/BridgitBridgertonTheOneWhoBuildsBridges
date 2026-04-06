@@ -130,7 +130,23 @@ func CreateInitialCommit(repoPath string) error {
 		}
 	}
 
+	// Run the secret scanner before staging to prevent leaking credentials.
+	// Any files containing secrets are excluded from the commit entirely.
+	secretFindings, excludedFiles := ScanForSecrets(repoPath)
+	if len(secretFindings) > 0 {
+		// Log each finding to stderr so the operator knows what was excluded.
+		for _, finding := range secretFindings {
+			fmt.Fprintf(os.Stderr, "GUARDRAIL: excluded %s (%s)\n",
+				finding.FilePath, finding.Rule)
+		}
+
+		// Append excluded files to .gitignore so git add skips them.
+		appendToGitignore(repoPath, excludedFiles)
+	}
+
 	// Stage all files in the repository for the initial commit.
+	// Files flagged by the secret scanner are now in .gitignore and will
+	// be automatically excluded by git add.
 	addCommand := exec.Command("git", "-C", repoPath, "add", ".")
 	combinedOutput, err := addCommand.CombinedOutput()
 	if err != nil {
@@ -209,6 +225,30 @@ func ensureGitignore(repoPath string) {
 	// a missing .gitignore is non-fatal — the commit will still succeed,
 	// it just might include files that should have been excluded.
 	_ = os.WriteFile(gitignorePath, []byte(defaultGitignore), 0644)
+}
+
+// appendToGitignore adds entries for files that the secret scanner flagged.
+// These are appended to the existing .gitignore (created by ensureGitignore)
+// under a guardrail header so the operator can see what was auto-excluded.
+func appendToGitignore(repoPath string, excludedFiles []string) {
+	if len(excludedFiles) == 0 {
+		return
+	}
+
+	gitignorePath := repoPath + "/.gitignore"
+
+	// Open for append — ensureGitignore should have already created the file.
+	fileHandle, openError := os.OpenFile(gitignorePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if openError != nil {
+		return
+	}
+	defer fileHandle.Close()
+
+	// Write a header and each excluded file path.
+	_, _ = fileHandle.WriteString("\n# Bridgit guardrail: secrets detected — auto-excluded\n")
+	for _, excludedFile := range excludedFiles {
+		_, _ = fileHandle.WriteString(excludedFile + "\n")
+	}
 }
 
 // PushToRemote runs `git push -u <remoteName> <branch>` to push the local
