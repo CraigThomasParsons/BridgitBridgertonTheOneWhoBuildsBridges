@@ -103,18 +103,18 @@ func Load() Config {
 	// AutoAdopt defaults to false so the first run is always a safe preview.
 	// Flip to true once you've reviewed the candidate output.
 	return Config{
-		CodeRoot:         home + "/Code",
-		RegistryPath:     "./registry/repo_registry.toml",
-		GitHubOwner:      "CraigThomasParsons",
-		AutoAdopt:        false,
-		ArchivePath:      "./runtime/archive",
-		EnableProjection: false,
-		InboxPath:        "./runtime/inbox",
-		FailedPath:       "./runtime/failed",
-		EnableIntake:       false,
+		CodeRoot:           home + "/Code",
+		RegistryPath:       "./registry/repo_registry.toml",
+		GitHubOwner:        "CraigThomasParsons",
+		AutoAdopt:          false,
+		ArchivePath:        "./runtime/archive",
+		EnableProjection:   false,
+		InboxPath:          "./runtime/inbox",
+		FailedPath:         "./runtime/failed",
+		EnableIntake:       true,
 		EnableProvisioning: false,
-		LLMAPIKey:  getEnvOrDefault("LLM_API_KEY", os.Getenv("GROQ_API_KEY")),
-		LLMBaseURL: getEnvOrDefault("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
-		LLMModel:   getEnvOrDefault("LLM_MODEL", "llama-3.3-70b-versatile"),
+		LLMAPIKey:          getEnvOrDefault("LLM_API_KEY", os.Getenv("GROQ_API_KEY")),
+		LLMBaseURL:         getEnvOrDefault("LLM_BASE_URL", "https://api.groq.com/openai/v1"),
+		LLMModel:           getEnvOrDefault("LLM_MODEL", "llama-3.3-70b-versatile"),
 	}
 }

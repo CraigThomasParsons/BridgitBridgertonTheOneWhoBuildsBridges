@@ -189,7 +189,7 @@ func provisionCreateBoth(
 	cfg *config.Config,
 	emitter contracts.Emitter,
 ) ProvisionResult {
-	repoName := registryRepo.ID
+	repoName := deriveGitHubRepoName(registryRepo)
 	localPath := filepath.Join(cfg.CodeRoot, repoName)
 
 	// Create the local directory to hold the new repo.
@@ -379,7 +379,7 @@ func provisionInitAndCreateRepo(
 	emitter contracts.Emitter,
 ) ProvisionResult {
 	localPath := registryRepo.Local.Path
-	repoName := registryRepo.ID
+	repoName := deriveGitHubRepoName(registryRepo)
 
 	// Create the GitHub repo first so we have the remote URL.
 	cloneURL, err := createGitHubRepo(cfg.GitHubOwner, repoName)
@@ -506,7 +506,7 @@ func provisionCreateRepoAndPush(
 	emitter contracts.Emitter,
 ) ProvisionResult {
 	localPath := registryRepo.Local.Path
-	repoName := registryRepo.ID
+	repoName := deriveGitHubRepoName(registryRepo)
 
 	// Create the GitHub repo to get a remote URL.
 	cloneURL, err := createGitHubRepo(cfg.GitHubOwner, repoName)
@@ -634,6 +634,27 @@ func buildGitHubURLMap(githubRepos []GitHubRepo) map[string]string {
 		urlMap[strings.ToLower(githubRepo.Name)] = githubRepo.URL
 	}
 	return urlMap
+}
+
+// deriveGitHubRepoName determines the best name to use when creating a GitHub
+// repo. Prefers the local folder name (preserves PascalCase) over the registry
+// ID (which is a lowercase slug). Falls back to the first alias if available.
+func deriveGitHubRepoName(registryRepo *registry.Repo) string {
+	// Prefer the local folder basename — it preserves the user's original casing.
+	if registryRepo.Local.Path != "" {
+		folderName := filepath.Base(registryRepo.Local.Path)
+		if folderName != "" && folderName != "." {
+			return folderName
+		}
+	}
+
+	// Fall back to the first alias name if the local path is empty.
+	if len(registryRepo.Aliases.Names) > 0 && registryRepo.Aliases.Names[0] != "" {
+		return registryRepo.Aliases.Names[0]
+	}
+
+	// Last resort — use the registry ID (lowercase slug).
+	return registryRepo.ID
 }
 
 // failedResult creates a ProvisionResult for a failed provisioning action.

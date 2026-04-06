@@ -690,8 +690,8 @@ project_name = ''
 project_id = ''
 
 [repo.github]
-name = ''
-url = ''
+name = 'ThePostalService'
+url = 'https://github.com/CraigThomasParsons/ThePostalService.git'
 
 [repo.local]
 path = '/home/craigpar/Code/ThePostalService'
